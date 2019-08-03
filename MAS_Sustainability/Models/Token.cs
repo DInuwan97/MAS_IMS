@@ -28,22 +28,25 @@ namespace MAS_Sustainability
 
         public int no_of_token_rows_TokenManager { get; set; }
 
+        public String TokenStatus { get; set; }
 
-        public int []ArrTokenAuditID{get; set;}
-        public int []ArrAttentionLevel { get; set; }
-        public String []ArrFirstImagePath { get; set; }
-        public String []ArrProblemName { get; set; }
-        public String []ArrLocation { get; set; }
+        public int ArrTokenAuditID{get; set;}
+        public int ArrAttentionLevel { get; set; }
+        public String ArrFirstImagePath { get; set; }
+        public String ArrProblemName { get; set; }
+        public String ArrLocation { get; set; }
 
-        public String[] ArrUserName{ get; set; }
+        public String ArrUserName{ get; set; }
 
         public int no_of_rows_side_bar { get;set; }
 
         public int no_of_tokens { get; set; }
 
-        public String []ArrTokenStatus { get; set; }
+        public String ArrTokenStatus { get; set; }
 
         public String LoggedUserNameSide { get; set; }
+
+        public String SentUser { get; set; }
 
 
     }

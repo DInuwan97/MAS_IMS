@@ -11,73 +11,50 @@ namespace MAS_Sustainability.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult LayoutBody()
-        {
+        public ActionResult Index1()
+         {
 
-            if (Session["user"] == null)
+            return View();
+
+        }
+
+        public MainModel setUserDetails()
+        {
+            MainModel mainModel = new MainModel();
+            DataTable userDetailsDataTable = new DataTable();
+            DB dbConn = new DB();
+
+            UserLogin userLogin = new UserLogin();
+            using (MySqlConnection mySqlCon = dbConn.DBConnection())
             {
-                return RedirectToAction("Login", "UserLogin");
+                mySqlCon.Open();
+                String qry_listOfTokens = "SELECT UserName,UserType FROM users WHERE UserEmail = '" + Session["user"] + "'";
+                MySqlDataAdapter mySqlDa = new MySqlDataAdapter(qry_listOfTokens, mySqlCon);
+                mySqlDa.Fill(userDetailsDataTable);
+            }
+
+
+            if (userDetailsDataTable.Rows.Count == 1)
+            {
+
+                mainModel.LoggedUserName = userDetailsDataTable.Rows[0][0].ToString();
+                mainModel.LoggedUserType = userDetailsDataTable.Rows[0][1].ToString();
+
+                return mainModel;
             }
             else
             {
-
-                //List<Token> List_Token = new List<Token>();
-                //List<UserLogin> List_UserLogin = new List<UserLogin>();
-
-                
-                DB dbConn = new DB();
-                DataTable userDetailsDataTable = new DataTable();
-                UserLogin userLogin = new UserLogin();
-                Token tokenModel = new Token();
-                using (MySqlConnection mySqlCon = dbConn.DBConnection())
-                {
-                    mySqlCon.Open();
-                    MySqlCommand mySqlCmd = mySqlCon.CreateCommand();
-                    mySqlCmd.CommandType = System.Data.CommandType.Text;
-                    String qry = "SELECT UserName FROM users WHERE UserEmail = '" + Session["user"] + "'";
-                    MySqlDataAdapter MySqlDA = new MySqlDataAdapter(qry, mySqlCon);
-                    MySqlDA.Fill(userDetailsDataTable);
-                }
-
-
-                    if (userDetailsDataTable.Rows.Count == 1)
-                    {
-                        
-                       // finalItem.ListToken = List_Token;
-                       // finalItem.ListUserLogin = List_UserLogin;
-                       userLogin.LoggedUserNameSide = userDetailsDataTable.Rows[0][0].ToString(); 
-
-                        // ViewBag.LoginUserVariables = tokenModel;
-
-                        return View(userLogin);
-                    }
-                    else
-                    {
-                        return RedirectToAction("index");
-                    }
-
-
-                
+                return null;
             }
+
+
         }
 
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            //ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
             //ViewBag.Message = "Your contact page.";
 
-            return View();
+            return View(setUserDetails());
         }
     }
 }

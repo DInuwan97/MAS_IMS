@@ -1,13 +1,11 @@
 ﻿@using MAS_Sustainability.Models;
-@model Token
+@model MainModel
 
 @{
     Layout = "~/Views/Home/LayoutBody.cshtml";
 }
 
-@{
-    var no_of_tokens = ViewBag.TokenList;
-}
+
 
 
 @{
@@ -15,7 +13,8 @@
 }
 
 
-
+@if (Model != null)
+{
 
 
 <div class="main-panel">
@@ -38,7 +37,6 @@
 
                         <li class="nav-item" style="width:40%;  border-radius: 10px;">
                             <a class="nav-link active" id="pills-home-tab-icon" data-toggle="pill" href="#pills-home-icon" role="tab" aria-controls="pills-home-icon" aria-selected="true">
-
                                 Home
                             </a>
                         </li>
@@ -155,76 +153,77 @@
 
                     <tbody>
 
-                            @for (int i = 0; i < no_of_tokens.no_of_tokens; i++)
+                            @foreach (var no_of_tokens in Model.ListToken)
                             {
-                                if (@no_of_tokens.ArrTokenStatus[i].Equals("Pending"))
+                                if (@no_of_tokens.TokenStatus.Equals("Pending"))
                                 {
-                                    <tr>
-                                        <td>@no_of_tokens.ArrProblemName[i]</td>
-
-                                        <td>
-
-                                            @if (Convert.ToDouble(@no_of_tokens.ArrAttentionLevel[i]) <= 20)
-                                            {
-                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                                <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                                <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                                <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                            }
-                                            else if (Convert.ToDouble(@no_of_tokens.ArrAttentionLevel[i]) <= 40 && Convert.ToDouble(@no_of_tokens.ArrAttentionLevel[i]) > 20)
-                                            {
-                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                                <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                                <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                            }
-                                            else if (Convert.ToDouble(@no_of_tokens.ArrAttentionLevel[i]) <= 60 && Convert.ToDouble(@no_of_tokens.ArrAttentionLevel[i]) > 40)
-                                            {
-                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                                <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-
-                                            }
-                                            else if (Convert.ToDouble(@no_of_tokens.ArrAttentionLevel[i]) <= 80 && Convert.ToDouble(@no_of_tokens.ArrAttentionLevel[i]) > 60)
-                                            {
-                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-
-                                            }
-                                            else if (Convert.ToDouble(@no_of_tokens.ArrAttentionLevel[i]) <= 100 && Convert.ToDouble(@no_of_tokens.ArrAttentionLevel[i]) > 80)
-                                            {
-                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                            }
 
 
+                        <tr>
+                            <td>@no_of_tokens.ProblemName</td>
+                            <td>@no_of_tokens.Location</td>
 
-                                            @no_of_tokens.ArrAttentionLevel[i]
+                            <td>
 
-                                        </td>
-                                        <td>@no_of_tokens.ArrLocation[i]</td>
-
-                                        <td>@no_of_tokens.ArrUserName[i]</td>
-                                        <td>
-
-                                            <span class="badge badge-success"><a href="@Url.Action("View", "Token", new { @id = @no_of_tokens.ArrTokenAuditID[i] })"><strong>View</strong></a></span>
-
-                                            <span class="badge badge-warning">Eject</span>
-                                        </td>
-                                    </tr>
+                                @if (Convert.ToDouble(@no_of_tokens.AttentionLevel) <= 20)
+                                {
+                                    <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                    <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                    <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                    <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                    <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
                                 }
+                                else if (Convert.ToDouble(@no_of_tokens.AttentionLevel) <= 40 && Convert.ToDouble(@no_of_tokens.AttentionLevel) > 20)
+                                {
+                                    <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                    <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                    <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                    <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                    <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                }
+                                else if (Convert.ToDouble(@no_of_tokens.AttentionLevel) <= 60 && Convert.ToDouble(@no_of_tokens.AttentionLevel) > 40)
+                                {
+                                    <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                    <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                    <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                    <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                    <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+
+                                }
+                                else if (Convert.ToDouble(@no_of_tokens.AttentionLevel) <= 80 && Convert.ToDouble(@no_of_tokens.AttentionLevel) > 60)
+                                {
+                                    <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                    <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                    <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                    <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                    <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+
+                                }
+                                else if (Convert.ToDouble(@no_of_tokens.AttentionLevel) <= 100 && Convert.ToDouble(@no_of_tokens.AttentionLevel) > 80)
+                                {
+                                    <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                    <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                    <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                    <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                    <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                }
+
+                                @no_of_tokens.AttentionLevel
+
+
+                            </td>
+
+                            <td>@no_of_tokens.UserName</td>
+
+                            <td>
+                                <span class="badge badge-success"><a href="@Url.Action("View", "Token", new { @id = @no_of_tokens.TokenAuditID})"><strong>View</strong></a></span>
+                                <span class="badge badge-warning">Eject</span>
+                            </td>                                               
+                        </tr>
+                                }
+
                             }
-                        
+
 
 
 
@@ -279,131 +278,173 @@
                                     </tr>
                                 </thead>
 
+
+
                                 <tbody>
-
-                                    @for (int i = 0; i < @no_of_tokens.no_of_tokens; i++)
+                                    @foreach (var no_of_tokens in Model.TokenList)
                                     {
-                                        if (@no_of_tokens.ArrTokenStatus[i] != "Pending")
+                                        if (@no_of_tokens.TokenStatus != ("Pending"))
                                         {
-                                            <tr>
-                                                <td>@no_of_tokens.ArrProblemName[i]</td>
-
-                                                <td>
-
-                                                    @if (Convert.ToDouble(@no_of_tokens.ArrAttentionLevel[i]) <= 20)
-                                                    {
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                                    }
-                                                    else if (Convert.ToDouble(@no_of_tokens.ArrAttentionLevel[i]) <= 40 && Convert.ToDouble(@no_of_tokens.ArrAttentionLevel[i]) > 20)
-                                                    {
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                                    }
-                                                    else if (Convert.ToDouble(@no_of_tokens.ArrAttentionLevel[i]) <= 60 && Convert.ToDouble(@no_of_tokens.ArrAttentionLevel[i]) > 40)
-                                                    {
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-
-                                                    }
-                                                    else if (Convert.ToDouble(@no_of_tokens.ArrAttentionLevel[i]) <= 80 && Convert.ToDouble(@no_of_tokens.ArrAttentionLevel[i]) > 60)
-                                                    {
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-
-                                                    }
-                                                    else if (Convert.ToDouble(@no_of_tokens.ArrAttentionLevel[i]) <= 100 && Convert.ToDouble(@no_of_tokens.ArrAttentionLevel[i]) > 80)
-                                                    {
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                    }
 
 
+                                    <tr>
+                                        <td>@no_of_tokens.ProblemName</td>
 
-                                                    @no_of_tokens.ArrAttentionLevel[i]
+                                        <td>
 
-                                                </td>
+                                            @if (Convert.ToDouble(@no_of_tokens.AttentionLevel) <= 20)
+                                            {
+                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                                <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                                <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                                <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                                <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                            }
+                                            else if (Convert.ToDouble(@no_of_tokens.AttentionLevel) <= 40 && Convert.ToDouble(@no_of_tokens.AttentionLevel) > 20)
+                                            {
+                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                                <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                                <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                                <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                            }
+                                            else if (Convert.ToDouble(@no_of_tokens.AttentionLevel) <= 60 && Convert.ToDouble(@no_of_tokens.AttentionLevel) > 40)
+                                            {
+                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                                <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                                <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
 
+                                            }
+                                            else if (Convert.ToDouble(@no_of_tokens.AttentionLevel) <= 80 && Convert.ToDouble(@no_of_tokens.AttentionLevel) > 60)
+                                            {
+                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                                <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
 
-                                                @using (Html.BeginForm("Update", "Token", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                                {
-                                                    @Html.AntiForgeryToken()
-                                                    <td>
+                                            }
+                                            else if (Convert.ToDouble(@no_of_tokens.AttentionLevel) <= 100 && Convert.ToDouble(@no_of_tokens.AttentionLevel) > 80)
+                                            {
+                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                                <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                            }
 
+                                            @no_of_tokens.AttentionLevel
 
+                                        </td>
 
-                                                        <div class="select2-input">
-                                                            <select class="custom-select" name="ReparationDepartment" id="inputGroupSelect02" required="" style="margin-right:8px; height:40px;">
-                                                                <option value="@no_of_tokens.ArrTokenStatus[i]">@no_of_tokens.ArrTokenStatus[i]</option>
-                                                                <option value="Factory Engineering">Factory Engineering</option>
-                                                                <option value="Production Engineering">Production Engineering</option>
-                                                                <option value="Autonomation">Autonomation</option>
-                                                                <option value="MOS">MOS</option>
-                                                                <option value="RM">RM</option>
-                                                                <option value="Quality">Quality</option>
-                                                                <option value="FG">FG</option>
-                                                                <option value="Technical">Technical</option>
-                                                                <option value="Cutting">Cutting</option>
-                                                                <option value="HR">HR</option>
-                                                                <option value="Operation">Operation</option>
-                                                                <option value="Production VSM 01">Production VSM 01</option>
-                                                                <option value="Production VSM 02">Production VSM 02</option>
-                                                                <option value="Production VSM 03">Production VSM 03</option>
-                                                                <option value="Production VSM 04">Production VSM 04</option>
-                                                                <option value="Pre-Sewing">Pre-Sewing</option>
-                                                                <option value="Emblishment">Emblishment</option>
-                                                                <option value="IE">IE</option>
-                                                            </select>
-                                                        </div>
-
-                                                        <input type="hidden" name="TokenAuditID" value=" @no_of_tokens.ArrTokenAuditID[i]">
+                                        @using (Html.BeginForm("Update", "Token", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                        <td>
 
 
 
+                                            @if (@no_of_tokens.SentUser != Model.LoggedUserEmail)
+                                            {
 
-                                                    </td>
+                                                <div class="select2-input">
 
-                                                    <td>
+                                                    <select class="custom-select" disabled name="ReparationDepartment" id="inputGroupSelect02" required="" style="margin-right:8px; height:40px;">
 
-                                                        <button class="btn btn-success btn-sm"><strong>Update</strong></button>
-                                                        <button class="btn btn-danger btn-sm"><strong>Delete</strong></button>
+                                                        <option value="@no_of_tokens.TokenStatus">@no_of_tokens.TokenStatus</option>
+                                                        <option value="Factory Engineering">Factory Engineering</option>
+                                                        <option value="Production Engineering">Production Engineering</option>
+                                                        <option value="Autonomation">Autonomation</option>
+                                                        <option value="MOS">MOS</option>
+                                                        <option value="RM">RM</option>
+                                                        <option value="Quality">Quality</option>
+                                                        <option value="FG">FG</option>
+                                                        <option value="Technical">Technical</option>
+                                                        <option value="Cutting">Cutting</option>
+                                                        <option value="HR">HR</option>
+                                                        <option value="Operation">Operation</option>
+                                                        <option value="Production VSM 01">Production VSM 01</option>
+                                                        <option value="Production VSM 02">Production VSM 02</option>
+                                                        <option value="Production VSM 03">Production VSM 03</option>
+                                                        <option value="Production VSM 04">Production VSM 04</option>
+                                                        <option value="Pre-Sewing">Pre-Sewing</option>
+                                                        <option value="Emblishment">Emblishment</option>
+                                                        <option value="IE">IE</option>
+                                                    </select>
+                                                </div>
+
+                                            }
+                                            else
+                                            {
+                                                <div class="select2-input">
+
+                                                    <select class="custom-select"  name="ReparationDepartment" id="inputGroupSelect02" required="" style="margin-right:8px; height:40px;">
+
+                                                        <option value="@no_of_tokens.TokenStatus">@no_of_tokens.TokenStatus</option>
+                                                        <option value="Factory Engineering">Factory Engineering</option>
+                                                        <option value="Production Engineering">Production Engineering</option>
+                                                        <option value="Autonomation">Autonomation</option>
+                                                        <option value="MOS">MOS</option>
+                                                        <option value="RM">RM</option>
+                                                        <option value="Quality">Quality</option>
+                                                        <option value="FG">FG</option>
+                                                        <option value="Technical">Technical</option>
+                                                        <option value="Cutting">Cutting</option>
+                                                        <option value="HR">HR</option>
+                                                        <option value="Operation">Operation</option>
+                                                        <option value="Production VSM 01">Production VSM 01</option>
+                                                        <option value="Production VSM 02">Production VSM 02</option>
+                                                        <option value="Production VSM 03">Production VSM 03</option>
+                                                        <option value="Production VSM 04">Production VSM 04</option>
+                                                        <option value="Pre-Sewing">Pre-Sewing</option>
+                                                        <option value="Emblishment">Emblishment</option>
+                                                        <option value="IE">IE</option>
+                                                    </select>
+                                                </div>
+                                            }
+
+
+
+                                            <input type="hidden" name="TokenAuditID" value=" @no_of_tokens.TokenAuditID">
 
 
 
 
+                                        </td>
 
+                                        <td>
+                                            @if (@no_of_tokens.SentUser != Model.LoggedUserEmail)
+                                            {
+                                                <button class="btn btn-success btn-sm" disabled><strong>Update</strong></button>
+                                                <button class="btn btn-danger btn-sm" disabled><strong>Delete</strong></button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-success btn-sm"><strong>Update</strong></button>
+                                                <button class="btn btn-danger btn-sm"><strong>Delete</strong></button>
+                                            }
+                                        </td>
+                                        }
 
+                                    </tr>
 
-
-
-
-
-                                                    </td>
-                                                }
-
-
-                                            </tr>
                                         }
                                     }
-                                    
 
 
-                                </tbody>
+
+                                        </tbody>
+
+
+
+
+
+
+
+
+
                             </table>
                         </div>
                     </div>
@@ -434,7 +475,7 @@
 
 		</div>
 
-
+}
 
 
 <script src="~/Content/assets/js/core/jquery.3.2.1.min.js"></script>
@@ -451,65 +492,7 @@
 <script src="~/Content/assets/js/plugin/datatables/datatables.min.js"></script>
 <!-- Atlantis JS -->
 <script src="~/Content/assets/js/atlantis.min.js"></script>
-<!-- Atlantis DEMO methods, don't include it in your project! -->
+
 <script src="~/Content/assets/js/setting-demo2.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#basic-datatables').DataTable({
-        });
 
-        $('#multi-filter-select').DataTable({
-            "pageLength": 5,
-            initComplete: function () {
-                this.api().columns().every(function () {
-                    var column = this;
-                    var select = $('<select class="form-control"><option value=""></option></select>')
-                        .appendTo($(column.footer()).empty())
-                        .on('change', function () {
-                            var val = $.fn.dataTable.util.escapeRegex(
-                                $(this).val()
-                            );
-
-                            column
-                                .search(val ? '^' + val + '$' : '', true, false)
-                                .draw();
-                        });
-
-                    column.data().unique().sort().each(function (d, j) {
-                        select.append('<option value="' + d + '">' + d + '</option>')
-                    });
-                });
-            }
-        });
-
-        // Add Row
-        $('#add-row').DataTable({
-            "pageLength": 5,
-        });
-
-
-        $('#state').select2({
-            theme: "bootstrap"
-        });
-
-        /* validate */
-
-        // validation when select change
-        $("#state").change(function () {
-            $(this).valid();
-        })
-        var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
-
-        $('#addRowButton').click(function () {
-            $('#add-row').dataTable().fnAddData([
-                $("#addName").val(),
-                $("#addPosition").val(),
-                $("#addOffice").val(),
-                action
-            ]);
-            $('#addRowModal').modal('hide');
-
-        });
-    });
-</script>
 

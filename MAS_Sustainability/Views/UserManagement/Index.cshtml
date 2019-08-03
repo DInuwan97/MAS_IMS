@@ -1,0 +1,288 @@
+﻿@using MAS_Sustainability.Models;
+@model MainModel
+
+@{
+    Layout = "~/Views/Home/LayoutBody.cshtml";
+}
+
+
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+
+
+    <div class="main-panel">
+
+        <div class="content">
+
+
+            <!--start of the panel 1 -->
+
+            <div class="col-md6">
+                <!--before : col-md-6, changed to fit to the size-->
+
+                <div class="card">
+
+                    <div class="card-body">
+
+
+                        <ul class="nav nav-pills nav-secondary  nav-pills-no-bd nav-pills-icons justify-content-center" id="pills-tab-with-icon" role="tablist">
+
+
+                            <li class="nav-item" style="width:20%;  border-radius: 10px;">
+                                <a class="nav-link active" id="pills-home-tab-icon" data-toggle="pill" href="#pills-home-icon" role="tab" aria-controls="pills-home-icon" aria-selected="true">
+                                    Employees
+                                </a>
+                            </li>
+
+                            <!-- panel 2 button -->
+
+                            <li class="nav-item" style="width:20%; display: inline; border-radius: 10px;">
+                                <a class="nav-link" id="pills-profile-tab-icon" data-toggle="pill" href="#pills-profile-icon" role="tab" aria-controls="pills-profile-icon" aria-selected="false">
+                                    Department Leaders
+                                </a>
+                            </li>
+
+                            <!-- panel 3 button -->
+                            <li class="nav-item" style="width:20%; display: inline; border-radius: 10px;">
+                                <a class="nav-link" id="pills-factoryManagement-tab-icon" data-toggle="pill" href="#pills-factoryManagement-icon" role="tab" aria-controls="pills-factoryManagement-icon" aria-selected="false">
+                                    Factory Management
+                                </a>
+                            </li>
+
+                            <li class="nav-item" style="width:20%; display: inline; border-radius: 10px;">
+                                <a class="nav-link" id="pills-tokenManager-tab-icon" data-toggle="pill" href="#pills-tokenManager-icon" role="tab" aria-controls="pills-tokenManager-icon" aria-selected="false">
+                                    Token Manager
+                                </a>
+                            </li>
+
+                        </ul>
+
+
+                        <div class="tab-content mt-2 mb-3" id="pills-with-icon-tabContent">
+
+                            <div class="tab-pane fade show active" id="pills-home-icon" role="tabpanel" aria-labelledby="pills-home-tab-icon">
+
+                                <p>
+
+
+
+
+                                    <!-- datatable of panel 1 -->
+
+                                    <div class="col-md12">
+
+                                        <!--before : col-md-12, changed to fit to the size-->
+
+                                        <div class="card">
+
+                                            <div class="card-body">
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="addRowModal" tabindex="-1" role="dialog" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="table-responsive">
+                                                    <table id="add-row" class="display table table-striped table-hover">
+
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Problem Name</th>
+                                                                <th>Attention Level</th>
+                                                                <th>Location</th>
+
+                                                                <th>Added By</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+
+                                                            <tr>
+                                                                <td></td>
+                                                                <td></td>
+
+                                                                <td>
+                                                                    <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                                                    <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                                                    <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                                                    <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                                                    <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+
+                                                                </td>
+
+                                                                <td></td>
+
+                                                                <td>
+                                                                    <span class="badge badge-success"><strong>View</strong></span>
+                                                                    <span class="badge badge-warning">Eject</span>
+                                                                </td>
+                                                            </tr>
+
+                                                        </tbody>
+
+
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- end of datatable of panel 1 -->
+                                </p>
+
+                            </div>
+
+
+
+
+                            <div class="tab-pane fade" id="pills-profile-icon" role="tabpanel" aria-labelledby="pills-profile-tab-icon">
+                                <p>
+                                    <!-- datatable of panel 2 -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="table-responsive">
+                                                        <table id="basic-datatables" class="display table table-striped table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Problem Name</th>
+                                                                    <th>Attention Level</th>
+                                                                    <th>Reparation</th>
+
+                                                                    <th>Actions</th>
+                                                                </tr>
+                                                            </thead>
+
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td></td>
+                                                                    <td>
+                                                                        <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                                                        <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                                                    </td>
+                                                                    <td></td>
+                                                                    <td>
+                                                                        <button class="btn btn-success btn-sm" disabled><strong>Update</strong></button>
+                                                                        <button class="btn btn-danger btn-sm" disabled><strong>Delete</strong></button>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end of datatable of panel 2 -->
+                                </p>
+                            </div> <!-- end of panel 2 -->
+
+
+
+
+                            <div class="tab-pane fade" id="pills-factoryManagement-icon" role="tabpanel" aria-labelledby="pills-factoryManagement-tab-icon">
+                                <p>
+                                    <!-- datatable of panel 3 -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="table-responsive">
+                                                        <table id="basic-datatables" class="display table table-striped table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Problem Name</th>
+                                                                    <th>Attention Level</th>
+                                                                    <th>Reparation</th>
+
+                                                                    <th>Actions</th>
+                                                                </tr>
+                                                            </thead>
+
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td></td>
+                                                                    <td>
+                                                                        <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                                                        <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
+                                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                                                    </td>
+                                                                    <td></td>
+                                                                    <td>
+                                                                        <button class="btn btn-success btn-sm" disabled><strong>Update</strong></button>
+                                                                        <button class="btn btn-danger btn-sm" disabled><strong>Delete</strong></button>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end of datatable of panel 3 -->
+                                </p>
+                            </div> <!-- end of panel 3 -->
+
+
+
+
+
+
+
+
+
+                        </div>
+    </div>
+    </div>
+    </div>
+
+
+
+
+
+
+
+    </div>
+
+    </div>
+
+
+
+
+<script src="~/Content/assets/js/core/jquery.3.2.1.min.js"></script>
+<script src="~/Content/assets/js/core/popper.min.js"></script>
+<script src="~/Content/assets/js/core/bootstrap.min.js"></script>
+<!-- jQuery UI -->
+<script src="~/Content/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="~/Content/assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+<!-- Bootstrap Toggle -->
+<script src="~/Content/assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+<!-- jQuery Scrollbar -->
+<script src="~/Content/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<!-- Datatables -->
+<script src="~/Content/assets/js/plugin/datatables/datatables.min.js"></script>
+<!-- Atlantis JS -->
+<script src="~/Content/assets/js/atlantis.min.js"></script>
+<!-- Atlantis DEMO methods, don't include it in your project! -->
+<script src="~/Content/assets/js/setting-demo2.js"></script>
+

@@ -11,27 +11,32 @@ namespace MAS_Sustainability.Controllers
 {
     public class TokenController : Controller
     {
+
+        
+
         [HttpGet]
         // GET: Token
         public ActionResult Index()
         {
-            if(Session["user"] == null)
+            MainModel finalItem = new MainModel();
+            if (Session["user"] == null)
             {
                 return RedirectToAction("Login", "UserLogin");
             }
 
-          //  List<Token> List_Token1 = new List<Token>();
-            ///List<UserLogin> List_UserLogin1 = new List<UserLogin>();
-
-            
-            //finalItem.ListToken = List_Token1;
-            //finalItem.ListUserLogin = List_UserLogin1;
-
-
-
             DB dbConn = new DB();
             DataTable dtblTokens = new DataTable();
+            DataTable userDetailsDataTable = new DataTable();
+            DataTable ForwardedTokeDataTable = new DataTable();
+            MainModel mainModel = new MainModel();
+
             Token tokenModel = new Token();
+
+            List<UserLogin> List_UserLogin = new List<UserLogin>();
+            List<Token> List_Token = new List<Token>();
+            List<Token> Token_List = new List<Token>();
+
+
             using (MySqlConnection mySqlCon = dbConn.DBConnection())
             {
                 mySqlCon.Open();
@@ -39,36 +44,71 @@ namespace MAS_Sustainability.Controllers
                 MySqlDataAdapter mySqlDA = new MySqlDataAdapter(qry,mySqlCon);
                 mySqlDA.Fill(dtblTokens);
 
-                
 
-                tokenModel.ArrTokenAuditID = new int[50];
-                tokenModel.ArrProblemName = new string[250];
-                tokenModel.ArrLocation = new string[100];
-                tokenModel.ArrAttentionLevel = new int[200000];
-                tokenModel.ArrFirstImagePath = new string[500];
-                tokenModel.ArrUserName = new string[100];
-                tokenModel.ArrTokenStatus = new string[50];
 
-                tokenModel.no_of_tokens = Convert.ToInt32(dtblTokens.Rows.Count);
+                String qry_forwared_tokens = "SELECT tka.TokenAuditID,tk.ProblemName,tk.Location,tk.AttentionLevel,usr.UserName,tkFlow.TokenManagerStatus,tkreview.SentUser " +
+                    "FROM users usr,tokens tk, token_audit tka,token_flow tkFlow, token_review tkreview " +
+                    "WHERE tk.TokenAuditID = tka.TokenAuditID AND tka.AddedUser = usr.UserEmail AND tk.TokenAuditID = tkFlow.TokenAuditID AND tk.TokenAuditID = tkreview.TokenAuditID";
+
+                MySqlDataAdapter mySqlDAForwardedTokens = new MySqlDataAdapter(qry_forwared_tokens,mySqlCon);
+                mySqlDAForwardedTokens.Fill(ForwardedTokeDataTable);
+
+
+
+                String qry_listOfTokens = "SELECT UserName,UserType,UserID,UserEmail FROM users WHERE UserEmail = '" + Session["user"] + "'";
+                MySqlDataAdapter mySqlDa = new MySqlDataAdapter(qry_listOfTokens, mySqlCon);
+                mySqlDa.Fill(userDetailsDataTable);
+                //DashbordController dashbord = new DashbordController();
+                //finalItem.LoggedUserName = dashbord.setUserDetails().ToString();
 
             }
 
             for (int i = 0; i < dtblTokens.Rows.Count; i++)
             {
-                tokenModel.ArrTokenAuditID[i] = Convert.ToInt32(dtblTokens.Rows[i][0]);
-                tokenModel.ArrProblemName[i] = dtblTokens.Rows[i][1].ToString();
-                tokenModel.ArrLocation[i] = dtblTokens.Rows[i][2].ToString();
-                tokenModel.ArrAttentionLevel[i] = Convert.ToInt32(dtblTokens.Rows[i][3]);
-                tokenModel.ArrUserName[i] = dtblTokens.Rows[i][4].ToString();
-                tokenModel.ArrTokenStatus[i] = dtblTokens.Rows[i][5].ToString();
+ 
+                List_Token.Add(new Token
+                    { ProblemName = dtblTokens.Rows[i][1].ToString(),
+                      Location = dtblTokens.Rows[i][2].ToString(),
+                      AttentionLevel = Convert.ToInt32(dtblTokens.Rows[i][3]) ,
+                      UserName = dtblTokens.Rows[i][4].ToString() ,
+                      TokenStatus = dtblTokens.Rows[i][5].ToString(),
+                      TokenAuditID = Convert.ToInt32(dtblTokens.Rows[i][0]),
+                      //SentUser = dtblTokens.Rows[i][6].ToString()
+                     }                                  
+                );
 
             }
 
-          
+            for(int i = 0; i < ForwardedTokeDataTable.Rows.Count; i++)
+            {
+                Token_List.Add(new Token
+                {
+                    ProblemName = ForwardedTokeDataTable.Rows[i][1].ToString(),
+                    Location = ForwardedTokeDataTable.Rows[i][2].ToString(),
+                    AttentionLevel = Convert.ToInt32(ForwardedTokeDataTable.Rows[i][3]),
+                    UserName = ForwardedTokeDataTable.Rows[i][4].ToString(),
+                    TokenStatus = ForwardedTokeDataTable.Rows[i][5].ToString(),
+                    TokenAuditID = Convert.ToInt32(ForwardedTokeDataTable.Rows[i][0]),
+                    SentUser = ForwardedTokeDataTable.Rows[i][6].ToString()
 
-            ViewBag.TokenList = tokenModel;
+                }
+                );
+            }
 
-            return View(tokenModel);
+            if (userDetailsDataTable.Rows.Count == 1)
+            {
+                mainModel.LoggedUserName = userDetailsDataTable.Rows[0][0].ToString();
+                mainModel.LoggedUserType = userDetailsDataTable.Rows[0][1].ToString();
+                mainModel.LoggedUserID = Convert.ToInt32(userDetailsDataTable.Rows[0][2]);
+                mainModel.LoggedUserEmail = userDetailsDataTable.Rows[0][3].ToString();
+            }
+
+
+            mainModel.ListToken = List_Token;
+            mainModel.ListUserLogin = List_UserLogin;
+            mainModel.TokenList = Token_List;
+
+            return View(mainModel);
         }
 
         // GET: Token/Details/5
@@ -80,13 +120,37 @@ namespace MAS_Sustainability.Controllers
         // GET: Token/Create
         public ActionResult Add()
         {
-            return View();
+            DB dbConn = new DB();
+            DataTable userDetailsDataTable = new DataTable();
+            MainModel mainModel = new MainModel();
+            using (MySqlConnection mySqlCon = dbConn.DBConnection())
+            {
+                String qry_listOfTokens = "SELECT UserName,UserType,UserID FROM users WHERE UserEmail = '" + Session["user"] + "'";
+                MySqlDataAdapter mySqlDa = new MySqlDataAdapter(qry_listOfTokens, mySqlCon);
+                mySqlDa.Fill(userDetailsDataTable);
+            }
+
+            if (userDetailsDataTable.Rows.Count == 1)
+            {
+                mainModel.LoggedUserName = userDetailsDataTable.Rows[0][0].ToString();
+                mainModel.LoggedUserType = userDetailsDataTable.Rows[0][1].ToString();
+                mainModel.LoggedUserID = Convert.ToInt32(userDetailsDataTable.Rows[0][2]);
+            }
+
+
+            return View(mainModel);
         }
 
         // POST: Token/Create
         [HttpPost]
         public ActionResult Add(Token tokenModel)
         {
+
+        
+            DataTable userDetailsDataTable = new DataTable();
+            MainModel mainModel = new MainModel();
+
+
 
             //Image 01
             string first_name_of_file = Path.GetFileNameWithoutExtension(tokenModel.FirstImageFile.FileName);
@@ -115,12 +179,15 @@ namespace MAS_Sustainability.Controllers
 
             String AddedUser = Session["user"].ToString();
 
+
             DB dbConn = new DB();
             using (MySqlConnection mySqlCon = dbConn.DBConnection())
             {
 
                 mySqlCon.Open();
                 // String qry = "INSERT INTO token_audit(AddedUser,Category,AddedDate)VALUES(@AddedUser,@Category,NOW())";
+
+
 
                 MySqlCommand mySqlCmd_TokenAudit = new MySqlCommand("Proc_Store_TokenAudit", mySqlCon);
                 mySqlCmd_TokenAudit.CommandType = CommandType.StoredProcedure;
@@ -163,24 +230,30 @@ namespace MAS_Sustainability.Controllers
                 mySqlCmd_tokenStatus.Parameters.AddWithValue("@TokenAuditID", last_audit_id_num);
                 mySqlCmd_tokenStatus.ExecuteNonQuery();
 
+              
 
             }
             // TODO: Add insert logic here
+         
+
             return View();
         }
 
-  
+
 
         // GET: Token/Edit/5
         public ActionResult View(int id)
         {
-            Token tokenModel = new Token();
+            MainModel mainModel = new MainModel();
 
             Token tokenModel1 = new Token();
             DataTable dtblToken = new DataTable();
             DataTable dtblSideList = new DataTable();
 
             DataTable dtblTokenImage = new DataTable();
+
+            DataTable userDetailsDataTable = new DataTable();
+            String AddedUser = Session["user"].ToString();
 
             DB dbConn = new DB();
             using (MySqlConnection mySqlCon = dbConn.DBConnection())
@@ -192,65 +265,67 @@ namespace MAS_Sustainability.Controllers
                 mySqlDa.SelectCommand.Parameters.AddWithValue("@TokenAuditID", id);
                 mySqlDa.Fill(dtblToken);
 
-             
 
                 String qry_side_token_list = "SELECT tka.TokenAuditID,tk.ProblemName,tk.Location,tk.AttentionLevel,tki.ImagePath FROM tokens tk, token_audit tka,token_image tki WHERE tk.TokenAuditID = tka.TokenAuditID  AND tk.TokenAuditID = tki.TokenID";
                 MySqlDataAdapter mySqlDa_sideList = new MySqlDataAdapter(qry_side_token_list, mySqlCon);
                 mySqlDa_sideList.Fill(dtblSideList);
 
-                tokenModel.ArrTokenAuditID = new int[50];
-                tokenModel.ArrProblemName = new string[250];
-                tokenModel.ArrLocation = new string[100];
-                tokenModel.ArrAttentionLevel = new int[200000];
-                tokenModel.ArrFirstImagePath = new string[500];
 
-                tokenModel.no_of_rows_side_bar = Convert.ToInt32(dtblSideList.Rows.Count);
+
+                String qry_listOfTokens = "SELECT UserName,UserType,UserID FROM users WHERE UserEmail = '" + Session["user"] + "'";
+                MySqlDataAdapter mySqlData = new MySqlDataAdapter(qry_listOfTokens, mySqlCon);
+                mySqlData.Fill(userDetailsDataTable);
+
+
+                mainModel.ArrTokenAuditID = new int[50];
+                 mainModel.ArrProblemName = new string[250];
+                 mainModel.ArrLocation = new string[100];
+                 mainModel.ArrAttentionLevel = new int[200000];
+                 mainModel.ArrFirstImagePath = new string[500];
+
+                 mainModel.no_of_rows_side_bar = Convert.ToInt32(dtblSideList.Rows.Count);
+
+            
 
             }
 
             for (int i = 0; i < dtblSideList.Rows.Count; i = i + 2)
             {
-             
-                tokenModel.ArrTokenAuditID[i] = Convert.ToInt32(dtblSideList.Rows[i][0]);
-                tokenModel.ArrProblemName[i] = dtblSideList.Rows[i][1].ToString();
-                tokenModel.ArrLocation[i] = dtblSideList.Rows[i][2].ToString();
-                tokenModel.ArrAttentionLevel[i] = Convert.ToInt32(dtblSideList.Rows[i][3]);
-                tokenModel.ArrFirstImagePath[i] = dtblSideList.Rows[i][4].ToString();
-              
+
+                 mainModel.ArrTokenAuditID[i] = Convert.ToInt32(dtblSideList.Rows[i][0]);
+                 mainModel.ArrProblemName[i] = dtblSideList.Rows[i][1].ToString();
+                 mainModel.ArrLocation[i] = dtblSideList.Rows[i][2].ToString();
+                 mainModel.ArrAttentionLevel[i] = Convert.ToInt32(dtblSideList.Rows[i][3]);
+                 mainModel.ArrFirstImagePath[i] = dtblSideList.Rows[i][4].ToString();
+
             }
 
 
 
-            if (dtblToken.Rows.Count == 2)
+            if (dtblToken.Rows.Count == 2 )
             {
-                tokenModel.TokenAuditID = Convert.ToInt32(dtblToken.Rows[0][0]);
-                tokenModel.ProblemName = dtblToken.Rows[0][1].ToString();
-                tokenModel.AddedDate = dtblToken.Rows[0][2].ToString();
-                tokenModel.Location = dtblToken.Rows[0][3].ToString();
-                tokenModel.AttentionLevel = Convert.ToInt32(dtblToken.Rows[0][4]);
-                tokenModel.UserName = dtblToken.Rows[0][5].ToString();
-                tokenModel.FirstImagePath = dtblToken.Rows[0][6].ToString();
-                tokenModel.SecondImagePath = dtblToken.Rows[1][6].ToString();
-                tokenModel.Description = dtblToken.Rows[0][7].ToString();
+                mainModel.TokenAuditID = Convert.ToInt32(dtblToken.Rows[0][0]);
+                 mainModel.ProblemName = dtblToken.Rows[0][1].ToString();
+                 mainModel.AddedDate = dtblToken.Rows[0][2].ToString();
+                 mainModel.Location = dtblToken.Rows[0][3].ToString();
+                 mainModel.AttentionLevel = Convert.ToInt32(dtblToken.Rows[0][4]);
+                 mainModel.UserName = dtblToken.Rows[0][5].ToString();
+                 mainModel.FirstImagePath = dtblToken.Rows[0][6].ToString();
+                 mainModel.SecondImagePath = dtblToken.Rows[1][6].ToString();
+                 mainModel.Description = dtblToken.Rows[0][7].ToString();
 
-                ViewBag.TokenVariable = tokenModel;
-                return View(tokenModel);
+                mainModel.LoggedUserName = userDetailsDataTable.Rows[0][0].ToString();
+                mainModel.LoggedUserType = userDetailsDataTable.Rows[0][1].ToString();
+                mainModel.LoggedUserID = Convert.ToInt32(userDetailsDataTable.Rows[0][2]);
+
+                ViewBag.TokenVariable = mainModel;
+                return View(mainModel);
 
             }
             else
             {
-                return RedirectToAction("index");
+                return View("Index");
             }
-         
-
-
-
-
-
-
-
-
-
 
 
 
