@@ -9,7 +9,7 @@ namespace MAS_Sustainability.Controllers
 {
     public class DB
     {
-        private String connectionString = @"server=localhost;port=3306;user id=root;database=mas_isscs;password=ThirtyFirst9731@;";
+        private String connectionString = @"server=localhost;port=3307;user id=root;password=admin;database=mas_isscs;";
 
         public MySqlConnection DBConnection()
         {
