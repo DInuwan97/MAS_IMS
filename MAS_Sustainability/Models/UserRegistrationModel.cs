@@ -25,6 +25,10 @@ namespace MAS_Sustainability
 
         public String UserType { get; set; }
 
+        public HttpPostedFileBase UserImage { get; set; }
+
+        public string UserImagePath { get; set; }
+
   
 
 

@@ -101,5 +101,12 @@ namespace MAS_Sustainability.Controllers
                 return View();
             }
         }
+
+
+        public ActionResult VerifyRegistration()
+        {
+
+            return View();
+        }
     }
 }

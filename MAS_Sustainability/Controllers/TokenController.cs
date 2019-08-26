@@ -426,6 +426,207 @@ namespace MAS_Sustainability.Controllers
            
         }
 
-   
+
+        public ActionResult MyTokens()
+        {
+
+            MainModel finalItem = new MainModel();
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login", "UserLogin");
+            }
+
+            DB dbConn = new DB();
+            DataTable dtblTokens = new DataTable();
+            DataTable userDetailsDataTable = new DataTable();
+            DataTable ForwardedTokeDataTable = new DataTable();
+            MainModel mainModel = new MainModel();
+
+            Token tokenModel = new Token();
+
+            List<UserLogin> List_UserLogin = new List<UserLogin>();
+            List<Token> List_Token = new List<Token>();
+            List<Token> Token_List = new List<Token>();
+
+            using (MySqlConnection mySqlCon = dbConn.DBConnection())
+            {
+
+                mySqlCon.Open();
+                String qry_myTokens = "SELECT tka.TokenAuditID,tka.Category,usr.UserName,tka.AddedDate,tk.ProblemName,tk.Location,tk.AttentionLevel,tkf.TokenManagerStatus " +
+                    "FROM mas_isscs.token_audit tka,mas_isscs.tokens tk,mas_isscs.token_flow tkf,mas_isscs.users usr WHERE " +
+                    "tka.TokenAuditID = tk.TokenAuditID  and tka.TokenAuditID = tkf.TokenAuditID AND " +
+                    "tka.AddedUser = '" + Session["user"] + "' and tka.AddedUser = usr.UserEmail";
+
+                MySqlDataAdapter mySqlDA = new MySqlDataAdapter(qry_myTokens, mySqlCon);
+                mySqlDA.Fill(dtblTokens);
+
+
+                String qry_UserDetails = "SELECT UserName,UserType,UserID,UserEmail FROM users WHERE UserEmail = '" + Session["user"] + "'";
+                MySqlDataAdapter mySqlDataUserDetails = new MySqlDataAdapter(qry_UserDetails, mySqlCon);
+                mySqlDataUserDetails.Fill(userDetailsDataTable);
+
+
+            }
+            if (userDetailsDataTable.Rows.Count == 1)
+            {
+                mainModel.LoggedUserName = userDetailsDataTable.Rows[0][0].ToString();
+                mainModel.LoggedUserType = userDetailsDataTable.Rows[0][1].ToString();
+                mainModel.LoggedUserID = Convert.ToInt32(userDetailsDataTable.Rows[0][2]);
+                mainModel.LoggedUserEmail = userDetailsDataTable.Rows[0][3].ToString();
+            }
+
+            for (int i = 0; i < dtblTokens.Rows.Count; i++)
+            {
+
+                List_Token.Add(new Token
+                {
+                    ProblemName = dtblTokens.Rows[i][4].ToString(),
+                    ProblemCategory = dtblTokens.Rows[i][1].ToString(),
+                    Location = dtblTokens.Rows[i][5].ToString(),
+                    AttentionLevel = Convert.ToInt32(dtblTokens.Rows[i][6]),
+                    UserName = dtblTokens.Rows[i][2].ToString(),
+                    TokenStatus = dtblTokens.Rows[i][7].ToString(),
+                    TokenAuditID = Convert.ToInt32(dtblTokens.Rows[i][0]),
+                    AddedDate = dtblTokens.Rows[i][3].ToString()
+                    //SentUser = dtblTokens.Rows[i][6].ToString()
+                }
+                );
+
+            }
+
+            mainModel.ListToken = List_Token;
+            mainModel.ListUserLogin = List_UserLogin;
+            mainModel.TokenList = Token_List;
+
+
+            return View(mainModel);
+        }
+
+        public ActionResult TokenUpdate(int id)
+        {
+            DataTable userDetailsDataTable = new DataTable();
+
+            List<UserLogin> List_UserLogin = new List<UserLogin>();
+            List<Token> Token_List = new List<Token>();
+            List<Token> List_Token = new List<Token>();
+
+            DataTable dtblTokens = new DataTable();
+            MainModel mainModel = new MainModel();
+            DB dbConn = new DB();
+
+            using (MySqlConnection mySqlCon = dbConn.DBConnection())
+            {
+                mySqlCon.Open();
+                String qry_UserDetails = "SELECT UserName,UserType,UserID,UserEmail FROM users WHERE UserEmail = '" + Session["user"] + "'";
+                MySqlDataAdapter mySqlDataUserDetails = new MySqlDataAdapter(qry_UserDetails, mySqlCon);
+                mySqlDataUserDetails.Fill(userDetailsDataTable);
+
+                String qry_myTokens = "SELECT tka.TokenAuditID,tka.Category,usr.UserName,tka.AddedDate,tk.ProblemName,tk.Location,tk.AttentionLevel,tkf.TokenManagerStatus,tkimg.ImagePath,tk.description " +
+                "FROM token_audit tka,tokens tk,token_flow tkf,users usr,token_image tkimg WHERE " +
+                "tka.TokenAuditID = tk.TokenAuditID AND tkf.TokenManagerStatus = 'Pending' and tka.TokenAuditID = tkf.TokenAuditID AND " +
+                "tka.AddedUser = '" + Session["user"] + "' and tka.AddedUser = usr.UserEmail and tka.TokenAuditID = @TokenAuditID and tkimg.TokenID = tk.TokenAuditID";
+
+                MySqlDataAdapter mySqlData_TokenInfo = new MySqlDataAdapter(qry_myTokens, mySqlCon);
+                mySqlData_TokenInfo.SelectCommand.Parameters.AddWithValue("@TokenAuditID", id);
+                mySqlData_TokenInfo.Fill(dtblTokens);
+
+            }
+
+            if (userDetailsDataTable.Rows.Count == 1)
+            {
+                mainModel.LoggedUserName = userDetailsDataTable.Rows[0][0].ToString();
+                mainModel.LoggedUserType = userDetailsDataTable.Rows[0][1].ToString();
+                mainModel.LoggedUserID = Convert.ToInt32(userDetailsDataTable.Rows[0][2]);
+                mainModel.LoggedUserEmail = userDetailsDataTable.Rows[0][3].ToString();
+            }
+
+            if (dtblTokens.Rows.Count == 2)
+            {
+
+                mainModel.FirstImagePath = dtblTokens.Rows[0][8].ToString();
+                mainModel.SecondImagePath = dtblTokens.Rows[1][8].ToString();
+
+                List_Token.Add(new Token
+                {
+                    ProblemName = dtblTokens.Rows[0][4].ToString(),
+                    ProblemCategory = dtblTokens.Rows[0][1].ToString(),
+                    Location = dtblTokens.Rows[0][5].ToString(),
+                    AttentionLevel = Convert.ToInt32(dtblTokens.Rows[0][6]),
+                    UserName = dtblTokens.Rows[0][2].ToString(),
+                    TokenStatus = dtblTokens.Rows[0][7].ToString(),
+                    TokenAuditID = Convert.ToInt32(dtblTokens.Rows[0][0]),
+                    AddedDate = dtblTokens.Rows[0][3].ToString(),
+                    Description = dtblTokens.Rows[0][9].ToString()
+
+                }
+                );
+            }
+
+            mainModel.ListToken = List_Token;
+            mainModel.TokenList = Token_List;
+
+            return View(mainModel);
+        }
+
+
+        public ActionResult DoUpdateProcess(Token tokenModel)
+        {
+            DB dbConn = new DB();
+
+            using (MySqlConnection mySqlCon = dbConn.DBConnection())
+            {
+
+                mySqlCon.Open();
+
+                String update_token_details = "UPDATE tokens tk,token_audit tka SET tk.ProblemName = @ProblemName,tk.Location = @Location,tka.Category = @ProblemCategory  WHERE tka.TokenAuditID = tk.TokenAuditID and tka.TokenAuditID = @TokenAuditID";
+                MySqlCommand mySqlCommand_update_token_status = new MySqlCommand(update_token_details, mySqlCon);
+                mySqlCommand_update_token_status.Parameters.AddWithValue("@Description",tokenModel.Description);
+                mySqlCommand_update_token_status.Parameters.AddWithValue("@TokenAuditID",tokenModel.TokenAuditID);
+                mySqlCommand_update_token_status.Parameters.AddWithValue("@ProblemName", tokenModel.ProblemName);
+                mySqlCommand_update_token_status.Parameters.AddWithValue("@Location", tokenModel.Location);
+                mySqlCommand_update_token_status.Parameters.AddWithValue("@ProblemCategory", tokenModel.ProblemCategory);
+
+      
+
+
+                mySqlCommand_update_token_status.ExecuteNonQuery();
+
+            }
+
+
+            return RedirectToAction("MyTokens");
+        }
+
+        public ActionResult DoUpdateProcessInDetail(Token tokenModel)
+        {
+            DB dbConn = new DB();
+
+            using (MySqlConnection mySqlCon = dbConn.DBConnection())
+            {
+
+                mySqlCon.Open();
+               
+
+                String update_token_details = "UPDATE tokens tk,token_audit tka SET tk.AttentionLevel = @AttentionLevel, tk.Description = @Description,tk.ProblemName = @ProblemName,tk.Location = @Location,tka.Category = @ProblemCategory  WHERE tka.TokenAuditID = tk.TokenAuditID and tka.TokenAuditID = @TokenAuditID";
+
+                MySqlCommand mySqlCommand_update_token_status = new MySqlCommand(update_token_details, mySqlCon);
+                mySqlCommand_update_token_status.Parameters.AddWithValue("@TokenAuditID", tokenModel.TokenAuditID);
+                mySqlCommand_update_token_status.Parameters.AddWithValue("@ProblemName", tokenModel.ProblemName);
+                mySqlCommand_update_token_status.Parameters.AddWithValue("@Location", tokenModel.Location);
+                mySqlCommand_update_token_status.Parameters.AddWithValue("@ProblemCategory", tokenModel.ProblemCategory);
+
+                mySqlCommand_update_token_status.Parameters.AddWithValue("@AttentionLevel", tokenModel.AttentionLevel);
+                mySqlCommand_update_token_status.Parameters.AddWithValue("@Description", tokenModel.Description);
+
+
+                mySqlCommand_update_token_status.ExecuteNonQuery();
+
+            }
+
+
+            return RedirectToAction("MyTokens");
+        }
+
+
     }
 }
