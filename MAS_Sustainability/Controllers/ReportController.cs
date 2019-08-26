@@ -141,7 +141,7 @@ namespace MAS_Sustainability.Controllers
                 using (MySqlConnection mySqlCon2 = dbConn.DBConnection())
                 {
                     mySqlCon2.Open();
-                    String ListOfComments = "select commentid,comment,comment.feedbackid,feedback.feedbackId,feedback.userid,feedback.tokenid,feedback.rating,users.userId,users.username,comment.datetime from comment,feedback,users where comment.feedbackId=feedback.feedbackId and users.userId = feedback.userId and feedback.tokenid=" + (int)Id;
+                    String ListOfComments = "select commentid,comment,comment.feedbackid,feedback.feedbackId,feedback.userid,feedback.tokenid,feedback.rating,users.userId,users.username,comment.datetime,users.userimage from comment,feedback,users where comment.feedbackId=feedback.feedbackId and users.userId = feedback.userId and feedback.tokenid=" + (int)Id;
                     String LikeDislikeCounts = "select count(*) as totalCount, sum(case when rating = '1' then 1 else 0 end) likeCount, sum(case when rating = '2' then 1 else 0 end) DislikeCount from feedback where tokenId = " + (int)Id;
                     String LikedOrDisliked = "Select userid,tokenid,rating from feedback where tokenid = " + (int)Id + " and userid =" + (int)Convert.ToInt32(UserDataDatatable1.Rows[0][2]);
                     MySqlCommand sqlCommListComment = new MySqlCommand(ListOfComments, mySqlCon2);
@@ -176,7 +176,7 @@ namespace MAS_Sustainability.Controllers
                             userID = Convert.ToInt32(commentsDatatable.Rows[i][4]),
                             userName = commentsDatatable.Rows[i][8].ToString(),
                             userImageId = 1,
-                            userImagePath = "/content/images/dinuwan_user.png",
+                            userImagePath = commentsDatatable.Rows[i][10].ToString(),
                             tokenID = Convert.ToInt32(commentsDatatable.Rows[i][5]),
                             dateTime = commentsDatatable.Rows[i][9].ToString()
                         });
