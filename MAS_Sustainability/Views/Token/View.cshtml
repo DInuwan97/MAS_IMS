@@ -665,12 +665,32 @@
             <script src="~/Content/assets/js/plugin/datatables/datatables.min.js"></script>
             <!-- Atlantis JS -->
             <script src="~/Content/assets/js/atlantis.min.js"></script>
-
+            <!-- Atlantis DEMO methods, don't include it in your project! -->
+            <script src="~/Content/assets/js/setting-demo2.js"></script>
 
             <script src="assets/js/plugin/jquery.magnific-popup/jquery.magnific-popup.min.js"></script>
             <!-- Atlantis JS -->
 
-
+            <script>
+                // This will create a single gallery from all elements that have class "gallery-item"
+                $('.image-gallery').magnificPopup({
+                    delegate: 'a',
+                    type: 'image',
+                    removalDelay: 300,
+                    gallery: {
+                        enabled: true,
+                    },
+                    mainClass: 'mfp-with-zoom',
+                    zoom: {
+                        enabled: true,
+                        duration: 300,
+                        easing: 'ease-in-out',
+                        opener: function (openerElement) {
+                            return openerElement.is('img') ? openerElement : openerElement.find('img');
+                        }
+                    }
+                });
+            </script>
 
 
 

@@ -97,39 +97,84 @@
 
                                                         <thead>
                                                             <tr>
-                                                                <th>Problem Name</th>
-                                                                <th>Attention Level</th>
-                                                                <th>Location</th>
+                                                                <th>Employee Name</th>
+                                                                <th>Email</th>
+                                                                <th>Mobile</th>
 
-                                                                <th>Added By</th>
+                                                                <th>Department</th>
+
+                                                               
                                                                 <th>Actions</th>
                                                             </tr>
                                                         </thead>
 
                                                         <tbody>
 
+                                                            @foreach (var userDetailList in Model.ListUserRegistration)
+                                                            {
+                                                                if (@userDetailList.UserType == ("Employee"))
+                                                                {
                                                             <tr>
-                                                                <td></td>
-                                                                <td></td>
 
                                                                 <td>
-                                                                    <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                                    <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                                                    <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                                                    <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                                                    <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+
+                                                                    <div class="avatar-sm float-left mr-2">
+                                                                        <img src="~/Content/images/dinuwan_user.png" alt="..." class="avatar-img rounded-circle">
+                                                                    </div>
+
+                                                                    <strong>@userDetailList.UserFullName</strong>
 
                                                                 </td>
 
-                                                                <td></td>
 
+                                                                <td><strong>@userDetailList.UserEmail</strong></td>
+                                                                <td><strong>@userDetailList.UserMobile</strong> </td>
+                                                                <td><strong>
+
+                                                                    <div class="select2-input">
+
+                                                                        <select class="custom-select" name="ReparationDepartment" id="inputGroupSelect02" required="" style="margin-right:8px; height:40px;">
+
+                                                                            <option value="@userDetailList.UserDepartment">@userDetailList.UserDepartment</option>
+                                                                            <option value="Factory Engineering">Factory Engineering</option>
+                                                                            <option value="Production Engineering">Production Engineering</option>
+                                                                            <option value="Autonomation">Autonomation</option>
+                                                                            <option value="MOS">MOS</option>
+                                                                            <option value="RM">RM</option>
+                                                                            <option value="Quality">Quality</option>
+                                                                            <option value="FG">FG</option>
+                                                                            <option value="Technical">Technical</option>
+                                                                            <option value="Cutting">Cutting</option>
+                                                                            <option value="HR">HR</option>
+                                                                            <option value="Operation">Operation</option>
+                                                                            <option value="Production VSM 01">Production VSM 01</option>
+                                                                            <option value="Production VSM 02">Production VSM 02</option>
+                                                                            <option value="Production VSM 03">Production VSM 03</option>
+                                                                            <option value="Production VSM 04">Production VSM 04</option>
+                                                                            <option value="Pre-Sewing">Pre-Sewing</option>
+                                                                            <option value="Emblishment">Emblishment</option>
+                                                                            <option value="IE">IE</option>
+                                                                        </select>
+                                                                    </div>
+
+
+
+
+</strong></td>
+                                              
                                                                 <td>
-                                                                    <span class="badge badge-success"><strong>View</strong></span>
-                                                                    <span class="badge badge-warning">Eject</span>
+
+                                                                    <button class="btn btn-success btn-sm"><strong>Change</strong></button>
+                                                                    <button class="btn btn-warning btn-sm"><strong> <i class="fas fa-user-lock"></i></strong></button>
+                                                                    <button class="btn btn-danger btn-sm"><strong><i class="fas fa-trash-alt"></i></strong></button>
+                                                                    <a href="@Url.Action("UserProfile", "UserManagement", new { @id = @userDetailList.UserID})"><i class="fas fa-hand-point-right fa-2x"></i></a>
                                                                 </td>
+
                                                             </tr>
+                                                                    }
+                                                                }
 
-                                                        </tbody>
+                                                            </tbody>
 
 
                                                     </table>
@@ -157,30 +202,45 @@
                                                         <table id="basic-datatables" class="display table table-striped table-hover">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Problem Name</th>
-                                                                    <th>Attention Level</th>
-                                                                    <th>Reparation</th>
-
+                                                                    <th>Department Leader's Name</th>
+                                                                    <th>Email</th>
+                                                                    <th>Mobile</th>
+                                                                    <th>ID</th>
+                                                                    <th>Department</th>
                                                                     <th>Actions</th>
                                                                 </tr>
                                                             </thead>
 
                                                             <tbody>
+
+
+                                                                @foreach (var userDetailList in Model.ListUserRegistration)
+                                                                {
+                                                                    if (@userDetailList.UserType == ("Department Leader"))
+                                                                    {
                                                                 <tr>
-                                                                    <td></td>
+
+                                                                    <td>@userDetailList.UserFullName</td>
+                                                                    <td>@userDetailList.UserEmail</td>
+                                                                    <td>@userDetailList.UserMobile </td>
+                                                                    <td>@userDetailList.UserDepartment</td>
+                                                                    <td>@userDetailList.UserID</td>
                                                                     <td>
-                                                                        <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                                        <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
+                                                                        <span class="badge badge-success"><a href="@Url.Action("UserProfile", "UserManagement", new { @id = @userDetailList.UserID})"><strong>View</strong></a></span>
+                                                                        <button class="btn btn-danger btn-sm"><strong>Delete</strong></button>
                                                                     </td>
-                                                                    <td></td>
-                                                                    <td>
-                                                                        <button class="btn btn-success btn-sm" disabled><strong>Update</strong></button>
-                                                                        <button class="btn btn-danger btn-sm" disabled><strong>Delete</strong></button>
-                                                                    </td>
+
                                                                 </tr>
+                                                                    }
+                                                                }
+
+
+
+
+
+
+
+
                                                             </tbody>
 
                                                         </table>
@@ -207,30 +267,42 @@
                                                         <table id="basic-datatables" class="display table table-striped table-hover">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Problem Name</th>
-                                                                    <th>Attention Level</th>
-                                                                    <th>Reparation</th>
+                                                                    <th>Dept: Leader's Name</th>
+                                                                    <th>Email</th>
+                                                                    <th>Mobile</th>
 
+                                                                    <th>Department</th>
                                                                     <th>Actions</th>
                                                                 </tr>
                                                             </thead>
 
                                                             <tbody>
-                                                                <tr>
-                                                                    <td></td>
-                                                                    <td>
-                                                                        <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                                        <i class="fas fa-star py-2 px-1 rate-popover" style="color:red" data-index="4" data-html="true"></i>
-                                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true"></i>
-                                                                    </td>
-                                                                    <td></td>
-                                                                    <td>
-                                                                        <button class="btn btn-success btn-sm" disabled><strong>Update</strong></button>
-                                                                        <button class="btn btn-danger btn-sm" disabled><strong>Delete</strong></button>
-                                                                    </td>
-                                                                </tr>
+
+                                                                @foreach (var userDetailList in Model.ListUserRegistration)
+                                                                {
+                                                                    if (@userDetailList.UserType == ("'Department Leader'"))
+                                                                    {
+                                                                        <tr>
+
+                                                                            <td>@userDetailList.UserFullName</td>
+                                                                            <td>@userDetailList.UserEmail</td>
+                                                                            <td>@userDetailList.UserMobile </td>
+                                                                            <td>@userDetailList.UserDepartment</td>
+                                                                            <td>
+                                                                                <span class="badge badge-success"><strong>View</strong></span>
+                                                                                <button class="btn btn-danger btn-sm"><strong>Delete</strong></button>
+                                                                            </td>
+
+                                                                        </tr>
+                                                                    }
+                                                                }
+
+
+
+
+
+
+
                                                             </tbody>
 
                                                         </table>
@@ -285,4 +357,63 @@
 <script src="~/Content/assets/js/atlantis.min.js"></script>
 <!-- Atlantis DEMO methods, don't include it in your project! -->
 <script src="~/Content/assets/js/setting-demo2.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#basic-datatables').DataTable({
+        });
+
+        $('#multi-filter-select').DataTable({
+            "pageLength": 5,
+            initComplete: function () {
+                this.api().columns().every(function () {
+                    var column = this;
+                    var select = $('<select class="form-control"><option value=""></option></select>')
+                        .appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
+        });
+
+        // Add Row
+        $('#add-row').DataTable({
+            "pageLength": 5,
+        });
+
+
+        $('#state').select2({
+            theme: "bootstrap"
+        });
+
+        /* validate */
+
+        // validation when select change
+        $("#state").change(function () {
+            $(this).valid();
+        })
+        var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+        $('#addRowButton').click(function () {
+            $('#add-row').dataTable().fnAddData([
+                $("#addName").val(),
+                $("#addPosition").val(),
+                $("#addOffice").val(),
+                action
+            ]);
+            $('#addRowModal').modal('hide');
+
+        });
+    });
+</script>
 
