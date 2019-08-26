@@ -357,15 +357,23 @@
                         </li>
 
 
-        @if(Model.LoggedUserType == ("Administrator")){
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index","UserManagement")">
-                                <i class="fas fa-user"></i>
-                                <p>User Manager</p>
+                        @if (Model.LoggedUserType == ("Administrator"))
+                        {
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "UserManagement")">
+                                    <i class="fas fa-user"></i>
+                                    <p>User Manager</p>
 
+                                </a>
+                            </li>
+                        }
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index","Report")">
+                                <i class="fas fa-user"></i>
+                                <p>Report</p>
                             </a>
                         </li>
-        }
+
 
 
 

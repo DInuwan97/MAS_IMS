@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MAS_Sustainability.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,6 +15,11 @@ namespace MAS_Sustainability
         public List<UserLogin> ListUserLogin { get; set; }
         public List<UserRegistrationModel> ListUserRegistration { get; set; }
         public List<Token> TokenList { get; set; }
+
+
+        public List<Report> ReportList { get; set; }
+        public Report report { get; set; }
+
 
 
 

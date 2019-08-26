@@ -135,6 +135,7 @@
     <Compile Include="Controllers\DashbordController.cs" />
     <Compile Include="Controllers\DB.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\StaffRegistrationController.cs" />
     <Compile Include="Controllers\TokenController.cs" />
     <Compile Include="Controllers\TokenManagerController.cs" />
@@ -145,6 +146,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\MainModel.cs" />
+    <Compile Include="Models\Report.cs" />
     <Compile Include="Models\StaffRegistrationModel.cs" />
     <Compile Include="Models\Token.cs" />
     <Compile Include="Models\TokenManager.cs" />
@@ -199,6 +201,8 @@
     <Content Include="Views\Token\View1.cshtml" />
     <Content Include="Views\UserManagement\Edit.cshtml" />
     <Content Include="Views\UserManagement\Index.cshtml" />
+    <Content Include="Views\Report\viewReport.cshtml" />
+    <Content Include="Views\Report\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
