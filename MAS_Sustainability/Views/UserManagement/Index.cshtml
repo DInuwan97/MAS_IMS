@@ -16,94 +16,313 @@
 
 
 
-    <div class="main-panel">
-
-        <div class="content">
-
-
-            <!--start of the panel 1 -->
-
-            <div class="col-md6">
-                <!--before : col-md-6, changed to fit to the size-->
-
-                <div class="card">
-
-                    <div class="card-body">
-
-
-                        <ul class="nav nav-pills nav-secondary  nav-pills-no-bd nav-pills-icons justify-content-center" id="pills-tab-with-icon" role="tablist">
-
-
-                            <li class="nav-item" style="width:20%;  border-radius: 10px;">
-                                <a class="nav-link active" id="pills-home-tab-icon" data-toggle="pill" href="#pills-home-icon" role="tab" aria-controls="pills-home-icon" aria-selected="true">
-                                    Employees
-                                </a>
-                            </li>
-
-                            <!-- panel 2 button -->
-
-                            <li class="nav-item" style="width:20%; display: inline; border-radius: 10px;">
-                                <a class="nav-link" id="pills-profile-tab-icon" data-toggle="pill" href="#pills-profile-icon" role="tab" aria-controls="pills-profile-icon" aria-selected="false">
-                                    Department Leaders
-                                </a>
-                            </li>
-
-                            <!-- panel 3 button -->
-                            <li class="nav-item" style="width:20%; display: inline; border-radius: 10px;">
-                                <a class="nav-link" id="pills-factoryManagement-tab-icon" data-toggle="pill" href="#pills-factoryManagement-icon" role="tab" aria-controls="pills-factoryManagement-icon" aria-selected="false">
-                                    Factory Management
-                                </a>
-                            </li>
-
-                            <li class="nav-item" style="width:20%; display: inline; border-radius: 10px;">
-                                <a class="nav-link" id="pills-tokenManager-tab-icon" data-toggle="pill" href="#pills-tokenManager-icon" role="tab" aria-controls="pills-tokenManager-icon" aria-selected="false">
-                                    Token Manager
-                                </a>
-                            </li>
-
-                        </ul>
-
-
-                        <div class="tab-content mt-2 mb-3" id="pills-with-icon-tabContent">
-
-                            <div class="tab-pane fade show active" id="pills-home-icon" role="tabpanel" aria-labelledby="pills-home-tab-icon">
-
-                                <p>
 
 
 
+<div class="main-panel">
 
-                                    <!-- datatable of panel 1 -->
-
-                                    <div class="col-md12">
-
-                                        <!--before : col-md-12, changed to fit to the size-->
-
-                                        <div class="card">
-
-                                            <div class="card-body">
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="addRowModal" tabindex="-1" role="dialog" aria-hidden="true">
-                                                    <div class="modal-dialog" role="document">
-                                                        <div class="modal-content">
+    <div class="content">
 
 
-                                                        </div>
+        <!--start of the panel 1 -->
+
+        <div class="col-md6">
+            <!--before : col-md-6, changed to fit to the size-->
+
+            <div class="card">
+
+                <div class="card-body">
+
+
+                    <ul class="nav nav-pills nav-secondary  nav-pills-no-bd nav-pills-icons justify-content-center" id="pills-tab-with-icon" role="tablist">
+
+
+                        <li class="nav-item" style="width:20%;  border-radius: 10px;">
+                            <a class="nav-link active" id="pills-home-tab-icon" data-toggle="pill" href="#pills-home-icon" role="tab" aria-controls="pills-home-icon" aria-selected="true">
+                                Employees
+                            </a>
+                        </li>
+
+                        <!-- panel 2 button -->
+
+                        <li class="nav-item" style="width:20%; display: inline; border-radius: 10px;">
+                            <a class="nav-link" id="pills-profile-tab-icon" data-toggle="pill" href="#pills-profile-icon" role="tab" aria-controls="pills-profile-icon" aria-selected="false">
+                                Department Leaders
+                            </a>
+                        </li>
+
+                        <!-- panel 3 button -->
+                        <li class="nav-item" style="width:20%; display: inline; border-radius: 10px;">
+                            <a class="nav-link" id="pills-factoryManagement-tab-icon" data-toggle="pill" href="#pills-factoryManagement-icon" role="tab" aria-controls="pills-factoryManagement-icon" aria-selected="false">
+                                Factory Management
+                            </a>
+                        </li>
+
+                        <li class="nav-item" style="width:20%; display: inline; border-radius: 10px;">
+                            <a class="nav-link" id="pills-tokenManager-tab-icon" data-toggle="pill" href="#pills-tokenManager-icon" role="tab" aria-controls="pills-tokenManager-icon" aria-selected="false">
+                                Token Manager
+                            </a>
+                        </li>
+
+                    </ul>
+
+
+                    <div class="tab-content mt-2 mb-3" id="pills-with-icon-tabContent">
+
+                        <div class="tab-pane fade show active" id="pills-home-icon" role="tabpanel" aria-labelledby="pills-home-tab-icon">
+
+                            <p>
+
+
+
+
+                                <!-- datatable of panel 1 -->
+
+                                <div class="col-md12">
+
+                                    <!--before : col-md-12, changed to fit to the size-->
+
+                                    <div class="card">
+
+                                        <div class="card-body">
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="addRowModal" tabindex="-1" role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+
+
                                                     </div>
                                                 </div>
+                                            </div>
 
+                                            <div class="table-responsive">
+                                                <table id="add-row" class="display table table-striped table-hover">
+
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Employee Name</th>
+                                                            <th>Email</th>
+                                                            <th>Mobile</th>
+                                                            <th>Department</th>
+                                                            <th>Actions</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+
+                                                        @foreach (var userDetailList in Model.ListUserRegistration)
+                                                        {
+                                                            int i = 0;
+                                                            if (@userDetailList.UserType == ("Employee"))
+                                                            {
+                                                                <tr>
+
+                                                                    <td>
+
+                                                                        <div class="avatar-sm float-left mr-2">
+                                                                            <img src="@Url.Content(userDetailList.UserImagePath)" alt="..." class="avatar-img rounded-circle">
+                                                                        </div>
+
+                                                                        <strong>@userDetailList.UserFullName</strong>
+
+                                                                    </td>
+
+
+                                                                    <td><strong>@userDetailList.UserEmail</strong></td>
+                                                                    <td><strong>@userDetailList.UserMobile</strong> </td>
+                                                                    <td>
+                                                                        <strong>
+
+                                                                            <div class="select2-input">
+
+                                                                                <select class="custom-select" name="ReparationDepartment" id="inputGroupSelect02" required="" style="margin-right:8px; height:40px;">
+
+                                                                                    <option value="@userDetailList.UserDepartment">@userDetailList.UserDepartment</option>
+                                                                                    <option value="Factory Engineering">Factory Engineering</option>
+                                                                                    <option value="Production Engineering">Production Engineering</option>
+                                                                                    <option value="Autonomation">Autonomation</option>
+                                                                                    <option value="MOS">MOS</option>
+                                                                                    <option value="RM">RM</option>
+                                                                                    <option value="Quality">Quality</option>
+                                                                                    <option value="FG">FG</option>
+                                                                                    <option value="Technical">Technical</option>
+                                                                                    <option value="Cutting">Cutting</option>
+                                                                                    <option value="HR">HR</option>
+                                                                                    <option value="Operation">Operation</option>
+                                                                                    <option value="Production VSM 01">Production VSM 01</option>
+                                                                                    <option value="Production VSM 02">Production VSM 02</option>
+                                                                                    <option value="Production VSM 03">Production VSM 03</option>
+                                                                                    <option value="Production VSM 04">Production VSM 04</option>
+                                                                                    <option value="Pre-Sewing">Pre-Sewing</option>
+                                                                                    <option value="Emblishment">Emblishment</option>
+                                                                                    <option value="IE">IE</option>
+                                                                                </select>
+                                                                            </div>
+
+
+
+
+                                                                        </strong>
+                                                                    </td>
+
+                                                                    <td>
+
+                                                                        <button class="btn btn-success btn-sm"><strong>Change</strong></button>
+                                                                        <button class="btn btn-warning btn-sm"><strong> <i class="fas fa-user-lock"></i></strong></button>
+                                                                        <button class="btn btn-danger btn-sm"><strong><i class="fas fa-trash-alt"></i></strong></button>
+                                                                        <a href="@Url.Action("UserProfile", "UserManagement", new { @id = @userDetailList.UserID})"><i class="fas fa-hand-point-right fa-2x"></i></a>
+                                                                    </td>
+
+                                                                </tr>
+                                                            }
+                                                            i = i + 1;
+                                                        }
+
+                                                    </tbody>
+
+
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- end of datatable of panel 1 -->
+                            </p>
+
+                        </div>
+
+
+
+
+                        <div class="tab-pane fade" id="pills-profile-icon" role="tabpanel" aria-labelledby="pills-profile-tab-icon">
+                            <p>
+                                <!-- datatable of panel 2 -->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-body">
                                                 <div class="table-responsive">
-                                                    <table id="add-row" class="display table table-striped table-hover">
-
+                                                    <table id="basic-datatables" class="display table table-striped table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th>Employee Name</th>
+                                                                <th>Leader's Name</th>
+                                                                <th>Email</th>
+                                                                <th>Mobile</th>
+                                                                <th>Department</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+
+
+                                                            @foreach (var userDetailList in Model.ListUserRegistration)
+                                                            {
+                                                                if (@userDetailList.UserType == ("Department Leader"))
+                                                                {
+                                                                    <tr>
+
+                                                                        <td>
+
+                                                                            <div class="avatar-sm float-left mr-2">
+                                                                                <img src="@Url.Content(userDetailList.UserImagePath)" alt="..." class="avatar-img rounded-circle">
+                                                                            </div>
+
+                                                                            <strong>@userDetailList.UserFullName</strong>
+
+                                                                        </td>
+                                                                        <td><strong>@userDetailList.UserEmail</strong></td>
+                                                                        <td><strong>@userDetailList.UserMobile</strong> </td>
+
+                                                                        <td>
+
+
+                                                                            <strong>
+
+                                                                                <div class="select2-input">
+
+                                                                                    <select class="custom-select" name="ReparationDepartment" id="inputGroupSelect02" required="" style="margin-right:8px; height:40px;">
+
+                                                                                        <option value="@userDetailList.UserDepartment">@userDetailList.UserDepartment</option>
+                                                                                        <option value="Factory Engineering">Factory Engineering</option>
+                                                                                        <option value="Production Engineering">Production Engineering</option>
+                                                                                        <option value="Autonomation">Autonomation</option>
+                                                                                        <option value="MOS">MOS</option>
+                                                                                        <option value="RM">RM</option>
+                                                                                        <option value="Quality">Quality</option>
+                                                                                        <option value="FG">FG</option>
+                                                                                        <option value="Technical">Technical</option>
+                                                                                        <option value="Cutting">Cutting</option>
+                                                                                        <option value="HR">HR</option>
+                                                                                        <option value="Operation">Operation</option>
+                                                                                        <option value="Production VSM 01">Production VSM 01</option>
+                                                                                        <option value="Production VSM 02">Production VSM 02</option>
+                                                                                        <option value="Production VSM 03">Production VSM 03</option>
+                                                                                        <option value="Production VSM 04">Production VSM 04</option>
+                                                                                        <option value="Pre-Sewing">Pre-Sewing</option>
+                                                                                        <option value="Emblishment">Emblishment</option>
+                                                                                        <option value="IE">IE</option>
+                                                                                    </select>
+                                                                                </div>
+
+
+
+
+                                                                            </strong>
+
+
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <button class="btn btn-success btn-sm"><strong>Change</strong></button>
+                                                                            <button class="btn btn-warning btn-sm"><strong> <i class="fas fa-user-lock"></i></strong></button>
+                                                                            <button class="btn btn-danger btn-sm"><strong><i class="fas fa-trash-alt"></i></strong></button>
+                                                                            <a href="@Url.Action("UserProfile", "UserManagement", new { @id = @userDetailList.UserID})"><i class="fas fa-hand-point-right fa-2x"></i></a>
+                                                                        </td>
+
+                                                                    </tr>
+                                                                }
+                                                            }
+
+
+
+
+
+
+
+
+                                                        </tbody>
+
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end of datatable of panel 2 -->
+                            </p>
+                        </div> <!-- end of panel 2 -->
+
+
+
+
+                        <div class="tab-pane fade" id="pills-factoryManagement-icon" role="tabpanel" aria-labelledby="pills-factoryManagement-tab-icon">
+                            <p>
+                                <!-- datatable of panel 3 -->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table id="basic-datatables" class="display table table-striped table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Dept: Leader's Name</th>
                                                                 <th>Email</th>
                                                                 <th>Mobile</th>
 
                                                                 <th>Department</th>
-
-                                                               
                                                                 <th>Actions</th>
                                                             </tr>
                                                         </thead>
@@ -112,208 +331,40 @@
 
                                                             @foreach (var userDetailList in Model.ListUserRegistration)
                                                             {
-                                                                if (@userDetailList.UserType == ("Employee"))
+                                                                if (@userDetailList.UserType == ("'Department Leader'"))
                                                                 {
-                                                            <tr>
+                                                                    <tr>
 
-                                                                <td>
+                                                                        <td>@userDetailList.UserFullName</td>
+                                                                        <td>@userDetailList.UserEmail</td>
+                                                                        <td>@userDetailList.UserMobile </td>
+                                                                        <td>@userDetailList.UserDepartment</td>
+                                                                        <td>
+                                                                            <span class="badge badge-success"><strong>View</strong></span>
+                                                                            <button class="btn btn-danger btn-sm"><strong>Delete</strong></button>
+                                                                        </td>
 
-                                                                    <div class="avatar-sm float-left mr-2">
-                                                                        <img src="~/Content/images/dinuwan_user.png" alt="..." class="avatar-img rounded-circle">
-                                                                    </div>
-
-                                                                    <strong>@userDetailList.UserFullName</strong>
-
-                                                                </td>
-
-
-                                                                <td><strong>@userDetailList.UserEmail</strong></td>
-                                                                <td><strong>@userDetailList.UserMobile</strong> </td>
-                                                                <td><strong>
-
-                                                                    <div class="select2-input">
-
-                                                                        <select class="custom-select" name="ReparationDepartment" id="inputGroupSelect02" required="" style="margin-right:8px; height:40px;">
-
-                                                                            <option value="@userDetailList.UserDepartment">@userDetailList.UserDepartment</option>
-                                                                            <option value="Factory Engineering">Factory Engineering</option>
-                                                                            <option value="Production Engineering">Production Engineering</option>
-                                                                            <option value="Autonomation">Autonomation</option>
-                                                                            <option value="MOS">MOS</option>
-                                                                            <option value="RM">RM</option>
-                                                                            <option value="Quality">Quality</option>
-                                                                            <option value="FG">FG</option>
-                                                                            <option value="Technical">Technical</option>
-                                                                            <option value="Cutting">Cutting</option>
-                                                                            <option value="HR">HR</option>
-                                                                            <option value="Operation">Operation</option>
-                                                                            <option value="Production VSM 01">Production VSM 01</option>
-                                                                            <option value="Production VSM 02">Production VSM 02</option>
-                                                                            <option value="Production VSM 03">Production VSM 03</option>
-                                                                            <option value="Production VSM 04">Production VSM 04</option>
-                                                                            <option value="Pre-Sewing">Pre-Sewing</option>
-                                                                            <option value="Emblishment">Emblishment</option>
-                                                                            <option value="IE">IE</option>
-                                                                        </select>
-                                                                    </div>
-
-
-
-
-</strong></td>
-                                              
-                                                                <td>
-
-                                                                    <button class="btn btn-success btn-sm"><strong>Change</strong></button>
-                                                                    <button class="btn btn-warning btn-sm"><strong> <i class="fas fa-user-lock"></i></strong></button>
-                                                                    <button class="btn btn-danger btn-sm"><strong><i class="fas fa-trash-alt"></i></strong></button>
-                                                                    <a href="@Url.Action("UserProfile", "UserManagement", new { @id = @userDetailList.UserID})"><i class="fas fa-hand-point-right fa-2x"></i></a>
-                                                                </td>
-
-                                                            </tr>
-                                                                    }
+                                                                    </tr>
                                                                 }
+                                                            }
 
-                                                            </tbody>
 
+
+
+
+
+
+                                                        </tbody>
 
                                                     </table>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <!-- end of datatable of panel 1 -->
-                                </p>
-
-                            </div>
-
-
-
-
-                            <div class="tab-pane fade" id="pills-profile-icon" role="tabpanel" aria-labelledby="pills-profile-tab-icon">
-                                <p>
-                                    <!-- datatable of panel 2 -->
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="table-responsive">
-                                                        <table id="basic-datatables" class="display table table-striped table-hover">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Department Leader's Name</th>
-                                                                    <th>Email</th>
-                                                                    <th>Mobile</th>
-                                                                    <th>ID</th>
-                                                                    <th>Department</th>
-                                                                    <th>Actions</th>
-                                                                </tr>
-                                                            </thead>
-
-                                                            <tbody>
-
-
-                                                                @foreach (var userDetailList in Model.ListUserRegistration)
-                                                                {
-                                                                    if (@userDetailList.UserType == ("Department Leader"))
-                                                                    {
-                                                                <tr>
-
-                                                                    <td>@userDetailList.UserFullName</td>
-                                                                    <td>@userDetailList.UserEmail</td>
-                                                                    <td>@userDetailList.UserMobile </td>
-                                                                    <td>@userDetailList.UserDepartment</td>
-                                                                    <td>@userDetailList.UserID</td>
-                                                                    <td>
-                                                                        <span class="badge badge-success"><a href="@Url.Action("UserProfile", "UserManagement", new { @id = @userDetailList.UserID})"><strong>View</strong></a></span>
-                                                                        <button class="btn btn-danger btn-sm"><strong>Delete</strong></button>
-                                                                    </td>
-
-                                                                </tr>
-                                                                    }
-                                                                }
-
-
-
-
-
-
-
-
-                                                            </tbody>
-
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- end of datatable of panel 2 -->
-                                </p>
-                            </div> <!-- end of panel 2 -->
-
-
-
-
-                            <div class="tab-pane fade" id="pills-factoryManagement-icon" role="tabpanel" aria-labelledby="pills-factoryManagement-tab-icon">
-                                <p>
-                                    <!-- datatable of panel 3 -->
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="table-responsive">
-                                                        <table id="basic-datatables" class="display table table-striped table-hover">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Dept: Leader's Name</th>
-                                                                    <th>Email</th>
-                                                                    <th>Mobile</th>
-
-                                                                    <th>Department</th>
-                                                                    <th>Actions</th>
-                                                                </tr>
-                                                            </thead>
-
-                                                            <tbody>
-
-                                                                @foreach (var userDetailList in Model.ListUserRegistration)
-                                                                {
-                                                                    if (@userDetailList.UserType == ("'Department Leader'"))
-                                                                    {
-                                                                        <tr>
-
-                                                                            <td>@userDetailList.UserFullName</td>
-                                                                            <td>@userDetailList.UserEmail</td>
-                                                                            <td>@userDetailList.UserMobile </td>
-                                                                            <td>@userDetailList.UserDepartment</td>
-                                                                            <td>
-                                                                                <span class="badge badge-success"><strong>View</strong></span>
-                                                                                <button class="btn btn-danger btn-sm"><strong>Delete</strong></button>
-                                                                            </td>
-
-                                                                        </tr>
-                                                                    }
-                                                                }
-
-
-
-
-
-
-
-                                                            </tbody>
-
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- end of datatable of panel 3 -->
-                                </p>
-                            </div> <!-- end of panel 3 -->
+                                </div>
+                                <!-- end of datatable of panel 3 -->
+                            </p>
+                        </div> <!-- end of panel 3 -->
 
 
 
@@ -323,10 +374,10 @@
 
 
 
-                        </div>
-    </div>
-    </div>
-    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 
@@ -336,7 +387,7 @@
 
     </div>
 
-    </div>
+</div>
 
 
 

@@ -22,7 +22,7 @@ namespace MAS_Sustainability.Controllers
             using (MySqlConnection mySqlCon = dbConn.DBConnection())
             {
                 mySqlCon.Open();
-                String qry_listOfTokens = "SELECT UserName,UserType,UserID,UserEmail,UserMobile,UserDepartment FROM users WHERE UserEmail = '" + Session["user"] + "'";
+                String qry_listOfTokens = "SELECT UserName,UserType,UserID,UserEmail,UserMobile,UserDepartment,UserImage FROM users WHERE UserEmail = '" + Session["user"] + "'";
                 MySqlDataAdapter mySqlDa = new MySqlDataAdapter(qry_listOfTokens, mySqlCon);
                 mySqlDa.Fill(userDetailsDataTable);
             }
@@ -36,7 +36,8 @@ namespace MAS_Sustainability.Controllers
                     UserID = Convert.ToInt32(userDetailsDataTable.Rows[0][2]),
                     UserEmail = userDetailsDataTable.Rows[0][3].ToString(),
                     UserMobile = userDetailsDataTable.Rows[0][4].ToString(),
-                    UserDepartment = userDetailsDataTable.Rows[0][5].ToString()
+                    UserDepartment = userDetailsDataTable.Rows[0][5].ToString(),
+                    UserImagePath = userDetailsDataTable.Rows[0][6].ToString()
                 }
                 );
             }
@@ -67,6 +68,8 @@ namespace MAS_Sustainability.Controllers
             DataTable userListDataTable = new DataTable();
             MainModel mainModel = new MainModel();
 
+           // UserRegistrationModel userRegistrationModel = new UserRegistrationModel();
+
             List<UserRegistrationModel> List_UserRegistration = new List<UserRegistrationModel>();
 
             DB dbConn = new DB();
@@ -75,7 +78,7 @@ namespace MAS_Sustainability.Controllers
             {
                 mySqlCon.Open();
 
-                String qry_listOfTokens = "SELECT UserName,UserType,UserID,UserEmail,UserMobile,UserDepartment FROM users WHERE UserEmail = '" + Session["user"] + "'";
+                String qry_listOfTokens = "SELECT UserName,UserType,UserID,UserEmail,UserMobile,UserDepartment,UserImage FROM users WHERE UserEmail = '" + Session["user"] + "'";
                 MySqlDataAdapter mySqlDa = new MySqlDataAdapter(qry_listOfTokens, mySqlCon);
                 mySqlDa.Fill(userDetailsDataTable);
 
@@ -84,15 +87,24 @@ namespace MAS_Sustainability.Controllers
                 MySqlDataAdapter mySqlData_UserList = new MySqlDataAdapter(qry_listOfUsers, mySqlCon);
                 mySqlData_UserList.Fill(userListDataTable);
 
+
+                mainModel.ArrFirstImagePath = new string[500];
+
+
             }
 
-            if (userDetailsDataTable.Rows[0][1].ToString() != ("Administrator"))
+            if (Session["user"] == null || userDetailsDataTable.Rows[0][1].ToString() != ("Administrator"))
             {
                 return RedirectToAction("Index", "Dashbord");
             }
 
+           
+
             for (int i = 0; i < userListDataTable.Rows.Count; i++)
             {
+               
+                
+
                 List_UserRegistration.Add(new UserRegistrationModel {
 
                     UserFullName = userListDataTable.Rows[i][1].ToString(),
@@ -100,9 +112,11 @@ namespace MAS_Sustainability.Controllers
                     UserID = Convert.ToInt32(userListDataTable.Rows[i][0]),
                     UserEmail = userListDataTable.Rows[i][2].ToString(),
                     UserMobile = userListDataTable.Rows[i][3].ToString(),
-                    UserDepartment = userListDataTable.Rows[i][6].ToString()
+                    UserDepartment = userListDataTable.Rows[i][6].ToString(),
+                    UserImagePath = userListDataTable.Rows[i][8].ToString()
 
-                });
+
+            });
 
             }
 
@@ -115,7 +129,7 @@ namespace MAS_Sustainability.Controllers
                 mainModel.LoggedUserID = Convert.ToInt32(userDetailsDataTable.Rows[0][2]);
 
                 mainModel.ListUserRegistration = List_UserRegistration;
-
+                //ViewBag.UserImageVariable = mainModel;
 
                 return View(mainModel);
             }
@@ -146,7 +160,7 @@ namespace MAS_Sustainability.Controllers
                 mySqlData_UserList.SelectCommand.Parameters.AddWithValue("@UserID",id);
                 mySqlData_UserList.Fill(userDetailsDataTable);
 
-                String qry_listOfTokens = "SELECT UserName,UserType,UserID,UserEmail,UserMobile,UserDepartment FROM users WHERE UserEmail = '" + Session["user"] + "'";
+                String qry_listOfTokens = "SELECT UserName,UserType,UserID,UserEmail,UserMobile,UserDepartment,UserImage FROM users WHERE UserEmail = '" + Session["user"] + "'";
                 MySqlDataAdapter mySqlDa = new MySqlDataAdapter(qry_listOfTokens, mySqlCon);
                 mySqlDa.Fill(LoggeduserDetailsDataTable);
 
@@ -162,6 +176,9 @@ namespace MAS_Sustainability.Controllers
 
             if (userDetailsDataTable.Rows.Count == 1)
             {
+
+                mainModel.UserImagePath = userDetailsDataTable.Rows[0][8].ToString();
+
                 List_UserDetails.Add(
                     new UserRegistrationModel {
                         UserFullName = userDetailsDataTable.Rows[0][1].ToString(),
@@ -170,6 +187,7 @@ namespace MAS_Sustainability.Controllers
                         UserEmail = userDetailsDataTable.Rows[0][2].ToString(),
                         UserMobile = userDetailsDataTable.Rows[0][3].ToString(),
                         UserDepartment = userDetailsDataTable.Rows[0][6].ToString()
+                        
                     }    
                 );
 
