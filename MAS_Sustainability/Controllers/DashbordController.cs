@@ -26,7 +26,7 @@ namespace MAS_Sustainability.Controllers
                 using (MySqlConnection mySqlCon = dbConn.DBConnection())
                 {
                     mySqlCon.Open();
-                    String qry_listOfTokens = "SELECT UserName,UserType,UserID FROM users WHERE UserEmail = '" + Session["user"] + "'";
+                    String qry_listOfTokens = "SELECT UserName,UserType,UserID,UserImage FROM users WHERE UserEmail = '" + Session["user"] + "'";
                     MySqlDataAdapter mySqlDa = new MySqlDataAdapter(qry_listOfTokens, mySqlCon);
                     mySqlDa.Fill(userDetailsDataTable);
                 }
@@ -37,6 +37,7 @@ namespace MAS_Sustainability.Controllers
                     mainModel.LoggedUserName = userDetailsDataTable.Rows[0][0].ToString();
                     mainModel.LoggedUserType = userDetailsDataTable.Rows[0][1].ToString();
                     mainModel.LoggedUserID = Convert.ToInt32(userDetailsDataTable.Rows[0][2]);
+                    mainModel.UserImagePath = userDetailsDataTable.Rows[0][3].ToString();
                     return mainModel;
                 }
             else

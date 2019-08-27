@@ -55,7 +55,7 @@ namespace MAS_Sustainability.Controllers
 
 
 
-                String qry_listOfTokens = "SELECT UserName,UserType,UserID,UserEmail FROM users WHERE UserEmail = '" + Session["user"] + "'";
+                String qry_listOfTokens = "SELECT UserName,UserType,UserID,UserEmail,UserImage FROM users WHERE UserEmail = '" + Session["user"] + "'";
                 MySqlDataAdapter mySqlDa = new MySqlDataAdapter(qry_listOfTokens, mySqlCon);
                 mySqlDa.Fill(userDetailsDataTable);
                 //DashbordController dashbord = new DashbordController();
@@ -101,6 +101,7 @@ namespace MAS_Sustainability.Controllers
                 mainModel.LoggedUserType = userDetailsDataTable.Rows[0][1].ToString();
                 mainModel.LoggedUserID = Convert.ToInt32(userDetailsDataTable.Rows[0][2]);
                 mainModel.LoggedUserEmail = userDetailsDataTable.Rows[0][3].ToString();
+                mainModel.UserImagePath = userDetailsDataTable.Rows[0][4].ToString();
             }
 
 
@@ -125,7 +126,7 @@ namespace MAS_Sustainability.Controllers
             MainModel mainModel = new MainModel();
             using (MySqlConnection mySqlCon = dbConn.DBConnection())
             {
-                String qry_listOfTokens = "SELECT UserName,UserType,UserID FROM users WHERE UserEmail = '" + Session["user"] + "'";
+                String qry_listOfTokens = "SELECT UserName,UserType,UserID,UserImage FROM users WHERE UserEmail = '" + Session["user"] + "'";
                 MySqlDataAdapter mySqlDa = new MySqlDataAdapter(qry_listOfTokens, mySqlCon);
                 mySqlDa.Fill(userDetailsDataTable);
             }
@@ -135,6 +136,7 @@ namespace MAS_Sustainability.Controllers
                 mainModel.LoggedUserName = userDetailsDataTable.Rows[0][0].ToString();
                 mainModel.LoggedUserType = userDetailsDataTable.Rows[0][1].ToString();
                 mainModel.LoggedUserID = Convert.ToInt32(userDetailsDataTable.Rows[0][2]);
+                mainModel.UserImagePath = userDetailsDataTable.Rows[0][3].ToString();
             }
 
 
@@ -272,7 +274,7 @@ namespace MAS_Sustainability.Controllers
 
 
 
-                String qry_listOfTokens = "SELECT UserName,UserType,UserID FROM users WHERE UserEmail = '" + Session["user"] + "'";
+                String qry_listOfTokens = "SELECT UserName,UserType,UserID,UserImage FROM users WHERE UserEmail = '" + Session["user"] + "'";
                 MySqlDataAdapter mySqlData = new MySqlDataAdapter(qry_listOfTokens, mySqlCon);
                 mySqlData.Fill(userDetailsDataTable);
 
@@ -317,6 +319,7 @@ namespace MAS_Sustainability.Controllers
                 mainModel.LoggedUserName = userDetailsDataTable.Rows[0][0].ToString();
                 mainModel.LoggedUserType = userDetailsDataTable.Rows[0][1].ToString();
                 mainModel.LoggedUserID = Convert.ToInt32(userDetailsDataTable.Rows[0][2]);
+                mainModel.UserImagePath = userDetailsDataTable.Rows[0][3].ToString();
 
                 ViewBag.TokenVariable = mainModel;
                 return View(mainModel);
@@ -461,7 +464,7 @@ namespace MAS_Sustainability.Controllers
                 mySqlDA.Fill(dtblTokens);
 
 
-                String qry_UserDetails = "SELECT UserName,UserType,UserID,UserEmail FROM users WHERE UserEmail = '" + Session["user"] + "'";
+                String qry_UserDetails = "SELECT UserName,UserType,UserID,UserEmail,UserImage FROM users WHERE UserEmail = '" + Session["user"] + "'";
                 MySqlDataAdapter mySqlDataUserDetails = new MySqlDataAdapter(qry_UserDetails, mySqlCon);
                 mySqlDataUserDetails.Fill(userDetailsDataTable);
 
@@ -473,6 +476,7 @@ namespace MAS_Sustainability.Controllers
                 mainModel.LoggedUserType = userDetailsDataTable.Rows[0][1].ToString();
                 mainModel.LoggedUserID = Convert.ToInt32(userDetailsDataTable.Rows[0][2]);
                 mainModel.LoggedUserEmail = userDetailsDataTable.Rows[0][3].ToString();
+                mainModel.UserImagePath = userDetailsDataTable.Rows[0][4].ToString();
             }
 
             for (int i = 0; i < dtblTokens.Rows.Count; i++)
@@ -517,7 +521,7 @@ namespace MAS_Sustainability.Controllers
             using (MySqlConnection mySqlCon = dbConn.DBConnection())
             {
                 mySqlCon.Open();
-                String qry_UserDetails = "SELECT UserName,UserType,UserID,UserEmail FROM users WHERE UserEmail = '" + Session["user"] + "'";
+                String qry_UserDetails = "SELECT UserName,UserType,UserID,UserEmail,UserImage FROM users WHERE UserEmail = '" + Session["user"] + "'";
                 MySqlDataAdapter mySqlDataUserDetails = new MySqlDataAdapter(qry_UserDetails, mySqlCon);
                 mySqlDataUserDetails.Fill(userDetailsDataTable);
 
@@ -538,6 +542,7 @@ namespace MAS_Sustainability.Controllers
                 mainModel.LoggedUserType = userDetailsDataTable.Rows[0][1].ToString();
                 mainModel.LoggedUserID = Convert.ToInt32(userDetailsDataTable.Rows[0][2]);
                 mainModel.LoggedUserEmail = userDetailsDataTable.Rows[0][3].ToString();
+                mainModel.UserImagePath = userDetailsDataTable.Rows[0][4].ToString();
             }
 
             if (dtblTokens.Rows.Count == 2)

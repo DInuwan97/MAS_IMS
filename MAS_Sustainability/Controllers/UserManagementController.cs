@@ -47,7 +47,10 @@ namespace MAS_Sustainability.Controllers
                 mainModel.LoggedUserName = userDetailsDataTable.Rows[0][0].ToString();
                 mainModel.LoggedUserType = userDetailsDataTable.Rows[0][1].ToString();
                 mainModel.LoggedUserID = Convert.ToInt32(userDetailsDataTable.Rows[0][2]);
+                mainModel.UserImagePath = userDetailsDataTable.Rows[0][6].ToString();
+
                 mainModel.ListUserRegistration = List_UserRegistration;
+               
                 return View(mainModel);
             }
             else
@@ -127,6 +130,7 @@ namespace MAS_Sustainability.Controllers
                 mainModel.LoggedUserName = userDetailsDataTable.Rows[0][0].ToString();
                 mainModel.LoggedUserType = userDetailsDataTable.Rows[0][1].ToString();
                 mainModel.LoggedUserID = Convert.ToInt32(userDetailsDataTable.Rows[0][2]);
+                mainModel.UserImagePath = userDetailsDataTable.Rows[0][6].ToString();
 
                 mainModel.ListUserRegistration = List_UserRegistration;
                 //ViewBag.UserImageVariable = mainModel;
@@ -171,7 +175,8 @@ namespace MAS_Sustainability.Controllers
                 mainModel.LoggedUserName = LoggeduserDetailsDataTable.Rows[0][0].ToString();
                 mainModel.LoggedUserType = LoggeduserDetailsDataTable.Rows[0][1].ToString();
                 mainModel.LoggedUserID = Convert.ToInt32(LoggeduserDetailsDataTable.Rows[0][2]);
-                         
+                mainModel.UserImagePath = userDetailsDataTable.Rows[0][6].ToString();
+
             }
 
             if (userDetailsDataTable.Rows.Count == 1)

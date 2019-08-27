@@ -15,6 +15,10 @@ namespace MAS_Sustainability
         public List<UserRegistrationModel> ListUserRegistration { get; set; }
         public List<Token> TokenList { get; set; }
 
+        public List<UserRegistrationModel> ReportList { get; set; }
+
+        public List<UserRegistrationModel> report { get; set; }
+
         
 
 

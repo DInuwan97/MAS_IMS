@@ -66,7 +66,7 @@
                                         <div class="notif-center">
                                             <a href="#">
                                                 <div class="notif-img">
-                                                    <img src="~/Content/images/dinuwan_user" alt="Img Profile">
+                                                    <img src="@Url.Content(Model.UserImagePath)" alt="Img Profile">
                                                 </div>
                                                 <div class="notif-content">
                                                     <span class="subject">Jimmy Denis</span>
@@ -78,7 +78,7 @@
                                             </a>
                                             <a href="#">
                                                 <div class="notif-img">
-                                                    <img src="~/Content/images/dinuwan_user.png" alt="..." class="avatar-img rounded-circle">
+                                                    <img src="@Url.Content(Model.UserImagePath)" alt="..." class="avatar-img rounded-circle">
                                                 </div>
                                                 <div class="notif-content">
                                                     <span class="subject">Chad</span>
@@ -152,7 +152,7 @@
                                             </a>
                                             <a href="#">
                                                 <div class="notif-img">
-                                                    <img src="~/Content/images/dinuwan_user.png" alt="..." class="avatar-img rounded-circle">
+                                                    <img src="@Url.Content(Model.UserImagePath)" alt="..." class="avatar-img rounded-circle">
                                                 </div>
                                                 <div class="notif-content">
                                                     <span class="block">
@@ -234,14 +234,14 @@
                         <li class="nav-item dropdown hidden-caret">
                             <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
                                 <div class="avatar-sm">
-                                    <img src="~/Content/images/dinuwan_user.png" alt="..." class="avatar-img rounded-circle">
+                                    <img src="@Url.Content(Model.UserImagePath)" alt="..." class="avatar-img rounded-circle">
                                 </div>
                             </a>
                             <ul class="dropdown-menu dropdown-user animated fadeIn">
                                 <div class="dropdown-user-scroll scrollbar-outer">
                                     <li>
                                         <div class="user-box">
-                                            <div class="avatar-lg"><img src="~/Content/images/dinuwan_user.png" alt="image profile" class="avatar-img rounded"></div>
+                                            <div class="avatar-lg"><img src="@Url.Content(Model.UserImagePath)" alt="image profile" class="avatar-img rounded"></div>
                                             <div class="u-text">
 
                                                                 
@@ -285,7 +285,7 @@
                 <div class="sidebar-content">
                     <div class="user">
                         <div class="avatar-sm float-left mr-2">
-                            <img src="~/Content/images/dinuwan_user.png" alt="..." class="avatar-img rounded-circle">
+                            <img src="@Url.Content(Model.UserImagePath)" alt="..." class="avatar-img rounded-circle">
                         </div>
                         <div class="info">
                             <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
@@ -357,23 +357,15 @@
                         </li>
 
 
-                        @if (Model.LoggedUserType == ("Administrator"))
-                        {
-                            <li class="nav-item">
-                                <a href="@Url.Action("Index", "UserManagement")">
-                                    <i class="fas fa-user"></i>
-                                    <p>User Manager</p>
-
-                                </a>
-                            </li>
-                        }
+        @if(Model.LoggedUserType == ("Administrator")){
                         <li class="nav-item">
-                            <a href="@Url.Action("Index","Report")">
+                            <a href="@Url.Action("Index","UserManagement")">
                                 <i class="fas fa-user"></i>
-                                <p>Report</p>
+                                <p>User Manager</p>
+
                             </a>
                         </li>
-
+        }
 
 
 

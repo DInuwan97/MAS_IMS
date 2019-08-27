@@ -66,7 +66,7 @@ namespace MAS_Sustainability.Controllers
             MainModel mainModel = new MainModel();
 
 
-            mainModel.ReportList = reportList;
+           // mainModel.ReportList = reportList;
 
             if(UserDataDatatable.Rows.Count == 1)
             {
@@ -235,7 +235,7 @@ namespace MAS_Sustainability.Controllers
 
                 MainModel main = new MainModel();
 
-                main.report = rep;
+                //main.report = rep;
                 if (UserDataDatatable1.Rows.Count == 1)
                 {
 
