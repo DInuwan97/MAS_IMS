@@ -66,9 +66,10 @@
                                                     <td>@Html.DisplayFor(m => item.Category)</td>
                                                     <td>@Html.DisplayFor(m => item.AddedDate) </td>
                                                     <td>
-                                                        <i class="btn btn-success btn-sm   " >@Html.ActionLink("View", "viewReport", "Report", new { Id = item.tokenID}, new { style = "color:white" })</i>
+                                                        
+                                                            <i >@Html.ActionLink("View", "viewReport", "Report", new { Id = item.tokenID }, new { @class="btn btn-success btn-sm " })</i>
 
-
+                                                       
 
 
                                                     </td>

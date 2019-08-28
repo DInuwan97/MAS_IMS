@@ -149,17 +149,25 @@
                                                     <div class=" card">
 
                                                         <div class="card-body">
-                                                            @using (Html.BeginForm())
+                                                            @using (Html.BeginForm("Comment","Report", FormMethod.Post))
                                                             {
                                                                 @Html.AntiForgeryToken()
-                                                                <div>
+                                                                <div class="col">
                                                                     <div class="form-group">
-                                                                        <label>Problem Name</label>
+                                                                        <label>Add a Comment</label>
                                                                         <div class="input-group">
-                                                                            <input type="text" class="form-control" id="ProblemName" name="ProblemName">
-
+                                                                            <input type="text" class="form-control" id="Comment" name="Comment" required>
+                                                                            @Html.Hidden("UserID", Html.DisplayFor(m => m.LoggedUserID))
+                                                                            @Html.Hidden("tokenID", Html.DisplayFor(m => m.report.tokenID))
                                                                         </div>
                                                                     </div>
+                                                                </div>
+                                                                <div class="col">
+                                                                    
+                                                                    <center>
+
+                                                                        <input type="submit" value="Submit" class="btn btn-info" />
+                                                                    </center>
                                                                 </div>
 
                                                             }
