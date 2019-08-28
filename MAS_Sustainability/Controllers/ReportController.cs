@@ -29,7 +29,7 @@ namespace MAS_Sustainability.Controllers
             using (MySqlConnection mySqlCon = dbConn.DBConnection())
             {
                 mySqlCon.Open();
-                String UserDetails = "SELECT UserName,UserType,userid FROM users WHERE UserEmail = '" + Session["user"] + "'";
+                String UserDetails = "SELECT UserName,UserType,userid,userimage FROM users WHERE UserEmail = '" + Session["user"] + "'";
                 String listOfReports = "select * from tokens, token_audit where tokens.tokenAuditID = token_audit.tokenauditId";
 
                 MySqlDataAdapter mySqlDa1 = new MySqlDataAdapter();
@@ -66,7 +66,7 @@ namespace MAS_Sustainability.Controllers
             MainModel mainModel = new MainModel();
 
 
-           // mainModel.ReportList = reportList;
+            mainModel.ReportList = reportList;
 
             if(UserDataDatatable.Rows.Count == 1)
             {
@@ -74,7 +74,7 @@ namespace MAS_Sustainability.Controllers
                 mainModel.LoggedUserName = UserDataDatatable.Rows[0][0].ToString();
                 mainModel.LoggedUserType = UserDataDatatable.Rows[0][1].ToString();
                 mainModel.LoggedUserID = Convert.ToInt32(UserDataDatatable.Rows[0][2]);
-
+                mainModel.UserImagePath = UserDataDatatable.Rows[0][3].ToString();
             }
 
             return View(mainModel);
@@ -100,7 +100,7 @@ namespace MAS_Sustainability.Controllers
             {
                 mySqlCon.Open();
                 String listOfReports1 = "select tokens.Tokenid,tokens.tokenauditid,problemname,location,attentionlevel,description,token_audit.tokenauditid,addeduser,category,addeddate,tokenimageid,token_image.tokenid,imagepath from tokens, token_audit, token_image where tokens.tokenAuditID = token_audit.tokenauditId and tokens.TokenID = '" + (int)Id + "' and token_image.tokenid=tokens.tokenauditid";
-                String UserDetails1 = "SELECT UserName,UserType,userid FROM users WHERE UserEmail = '" + Session["user"] + "'";
+                String UserDetails1 = "SELECT UserName,UserType,userid,UserImage FROM users WHERE UserEmail = '" + Session["user"] + "'";
                 MySqlDataAdapter mySqlDa2 = new MySqlDataAdapter();
                 MySqlCommand UserDetailsComm1 = new MySqlCommand(UserDetails1, mySqlCon);
                 MySqlCommand listOfReportsComm1 = new MySqlCommand(listOfReports1, mySqlCon);
@@ -175,7 +175,7 @@ namespace MAS_Sustainability.Controllers
                             feedbackID = Convert.ToInt32(commentsDatatable.Rows[i][2]),
                             userID = Convert.ToInt32(commentsDatatable.Rows[i][4]),
                             userName = commentsDatatable.Rows[i][8].ToString(),
-                            userImageId = 1,
+                            
                             userImagePath = commentsDatatable.Rows[i][10].ToString(),
                             tokenID = Convert.ToInt32(commentsDatatable.Rows[i][5]),
                             dateTime = commentsDatatable.Rows[i][9].ToString()
@@ -235,14 +235,14 @@ namespace MAS_Sustainability.Controllers
 
                 MainModel main = new MainModel();
 
-                //main.report = rep;
+                main.report = rep;
                 if (UserDataDatatable1.Rows.Count == 1)
                 {
 
                     main.LoggedUserName = UserDataDatatable1.Rows[0][0].ToString();
                     main.LoggedUserType = UserDataDatatable1.Rows[0][1].ToString();
                     main.LoggedUserID = Convert.ToInt32(UserDataDatatable1.Rows[0][2]);
-
+                    main.UserImagePath = UserDataDatatable1.Rows[0][3].ToString();
                 }
 
                 return View(main);
